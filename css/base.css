@@ -1,0 +1,37 @@
+/* ---- fonts ---- */
+@font-face {
+    font-family: 'Kawit';
+    src: url('../assets/fonts/KawitFree-Italic.ttf') format('truetype');
+    font-display: swap;
+}
+
+/* ---- design tokens ---- */
+:root {
+    --white: #ffffff;
+    --navy: #002060;
+    --magenta: #3d1643;
+    --crimson: #9F0611;
+    --brand-gradient: linear-gradient(135deg, var(--navy) 0%, var(--magenta) 50%, var(--crimson) 100%);
+    --brand-gradient-horizontal: linear-gradient(90deg, var(--navy) 0%, var(--magenta) 50%, var(--crimson) 100%);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+    overflow-x: clip;
+}
+
+.text-gradient {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}

@@ -7,62 +7,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SamaSik Portal</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-
-            <a href="#" class="nav-org">
-                <img src="assets/images/placeholder.jpg" class="nav-logo">
-                <span class="nav-org-name">Samahang Sikolohiya</span>
-            </a>
-
-            <ul class="nav-links">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="about.html" class="nav-link">About</a></li>
-                <li><a href="directories.html" class="nav-link">Directories</a></li>
-
-                <li class="dropdown">
-                    <a href="#" class="nav-item dropdown-toggle">Committees <span class="arrow">▼</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Lupon ng </a></li>
-                        <li><a href="#">Lupon ng</a></li>
-                        <li><a href="#">Lupon ng</a></li>
-                    </ul>
-                </li>
-
-                <li class="dropdown">
-                    <a href="#" class="nav-item dropdown-toggle">Resources <span class="arrow">▼</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Planner</a></li>
-                        <li><a href="#">Documents</a></li>
-                        <li><a href="#">FAQ</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
     <main>
         <header class="hero">
             <a href="https://www.google.com/maps/place/University+of+the+Philippines+Visayas/@10.6465434,122.2208916,14.79z/data=!4m15!1m8!3m7!1s0x33ae5b8a7fae6ec5:0x4a967dd317139cb1!2sMiagao,+Iloilo!3b1!8m2!3d10.6420129!4d122.236319!16zL20vMDJtazl6!3m5!1s0x33ae5b8761c629f5:0x8b0a8c7844cc30cd!8m2!3d10.64204!4d122.230829!16s%2Fm%2F02qny6r?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D"
                 class="hero-text"> University of the Philippines - Miagao Campus</a>
-            <h1 class="hero-title"> Samahang Sikolohiya </h1>
+            <h1 class="hero-title text-gradient"> Samahang Sikolohiya </h1>
             <span class="hero-motto"> Et Nos In Vobis! </span>
         </header>
 
         <section class="execom">
             <div class="grid">
-                <div class="execom-top">
+                <div class="execom-layout">
                     <div class="execom-picture">
-                        <img src="assets/images/placeholder.jpg" alt="execom group picture">
+                        <img src="assets/images/officers_group_pic.png" alt="execom group picture">
                     </div>
 
-                    <div class="execom-card">
+                    <div class="execom-positions">
                         <h2>Samasik Executive Committee</h2>
                         <p class="execom-year">A.Y 2026–2027</p>
 
@@ -93,33 +59,33 @@
 
                         <p class="advisers-label">Advisers</p>
                         <div class="execom-advisers">
-                            <p>[Asst. Prof. Janelle Rose D. Tan, MA]<br><span>Samasik Adviser</span></p>
-                            <p>[Insert Name]<br><span>Samasik Co-Adviser</span></p>
+                            <p><strong>Asst. Prof. Janelle Rose D. Tan, MA</strong><br><span>Samasik Adviser</span></p>
+                            <p><strong>[Insert Name]</strong><br><span>Samasik Co-Adviser</span></p>
                         </div>
                     </div>
                 </div>
             </div>
-            <p class="docs-label"></p>
-            <div class="doc-cards">
-                <a href="#" class="doc-card">
-                    <span class="material-symbols-outlined">description</span>
-                    <div>
-                        <h3>General Plan of Action</h3>
-                        <p>GPOA</p>
-                        <span class="doc-year">A.Y 2026–2027</span>
-                    </div>
-                </a>
-
-                <a href="#" class="doc-card">
-                    <span class="material-symbols-outlined">gavel</span>
-                    <div>
-                        <h3>Constitution and By-Laws</h3>
-                        <p>CBL</p>
-                        <span class="doc-year">A.Y 2026–2027</span>
-                    </div>
-                </a>
-            </div>
         </section>
+
+        <div class="doc-layout">
+            <a href="#" class="doc-card"> <!--TODO: change link hrefs-->
+                <span class="material-symbols-outlined">description</span>
+                <div>
+                    <h3>General Plan of Action</h3>
+                    <p>GPOA</p>
+                    <span class="doc-year">A.Y 2026–2027</span>
+                </div>
+            </a>
+
+            <a href="#" class="doc-card">
+                <span class="material-symbols-outlined">gavel</span>
+                <div>
+                    <h3>Constitution and By-Laws</h3>
+                    <p>CBL</p>
+                    <span class="doc-year">A.Y 2026–2027</span>
+                </div>
+            </a>
+        </div>
 
         <section class="psychalendar">
             <h1 class="section-title">PSYCHalendar</h1>
@@ -155,15 +121,15 @@
             </div>
 
             <div class="footer-logo">
-                <img src="assets/images/placeholder.jpg" alt="Company Logo" class="logo-img">
+                <img src="assets/images/logo_white.png" alt="Company Logo" class="logo-img">
             </div>
 
         </div>
     </footer>
 
-    <script src="js/nav.js"></script>
-    <script src="js/footer.js"></script>
-    <script src="js/main.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/footer.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 
 </html>
