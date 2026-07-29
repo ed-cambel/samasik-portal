@@ -3,4 +3,5 @@
 @import "components/nav.css";
 @import "components/footer.css";
 @import "pages/home.css";
-@import "pages/about.css"
+@import "pages/about.css";
+@import "pages/database.css";
