@@ -6,6 +6,7 @@
     min-height: 100dvh;
 }
 
+/* ---------- LANDING ---------- */
 .landing-section-edres {
     width: 100%;
     height: 100vh;
@@ -71,26 +72,227 @@
     color: var(--crimson);
 }
 
+/* ---------- COMMITTEE MEMBERS ---------- */
+.committee-section h2 {
+    font-family: 'Kawit', sans-serif;
+    font-size: 4rem;
+    padding: 20px;
+    text-align: center;
+    background: var(--brand-gradient-horizontal);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.committee-section .director-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--brand-gradient);
+    border-radius: var(--radius-card);
+    width: 350px;
+    margin: 0 auto;
+    padding: 20px 0;
+    box-shadow: var(--shadow-soft);
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.committee-section .director-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 36px rgba(13, 37, 63, 0.18);
+}
 
 
-.director-block {
+
+.committee-section .director-pic {
+    width: 85%;
+    max-width: 250px;
+    height: auto;
+    border-radius: var(--radius-card);
+    margin: 16px;
+}
+
+.committee-section .director-block {
     display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 30px;
+    grid-template-columns: 500px 1fr;
+    gap: 20px;
     align-items: center;
     margin-bottom: 30px;
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.committee-section .director-name {
+    color: white;
+    font-size: 16px;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+.committee-section .director-name span {
+    display: block;
+}
+
+.committee-section .director-name span:last-child {
+    font-size: 16px;
+    font-weight: 400;
+    opacity: 0.85;
+    font-style: italic;
+}
+
+.committee-info {
+    grid-column: span 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+
+
+    margin: 0;
+    padding: 0 0 0 2rem;
+    border-left: 1.5px solid var(--crimson);
+}
+
+.committee-info h3 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    margin: 0 0 1.5rem;
+}
+
+.committee-info h3 span {
+    color: var(--crimson);
+}
+
+.committee-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.committee-info ul li {
+    position: relative;
+    padding-left: 1.25rem;
+    font-size: 1.08rem;
+    line-height: 1.75;
+    color: var(--navy);
+}
+
+.committee-info ul li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.78em;
+    width: 0.38rem;
+    height: 0.38rem;
+    border-radius: 50%;
+    background: var(--crimson);
+}
+
+.committee-info .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    width: 100%;
+
+}
+
+.committee-info .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--navy);
+    text-decoration: none;
+    transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.committee-info .contact-item .material-symbols-outlined {
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    background: rgba(159, 6, 17, 0.08);
+    color: var(--crimson);
+    font-size: 1rem;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.committee-info .contact-item:hover {
+    transform: translateY(-2px);
+    color: var(--crimson);
+}
+
+.committee-info .contact-item:hover .material-symbols-outlined {
+    transform: scale(1.06);
+    background: rgba(159, 6, 17, 0.14);
 }
 
 .members-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 1.25rem;
+    margin-top: 2rem;
+    place-items: center;
 }
 
 .member-card {
-    grid-column: span 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 300px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.member-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(13, 37, 63, 0.12);
 }
 
 .member-card.wide {
     grid-column: span 2;
+}
+
+.member-name {
+    margin: 0;
+    padding: 0.95rem 1rem;
+    background: var(--brand-gradient);
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+}
+
+.member-email {
+    margin: 0;
+    margin-top: 0;
+    padding: 0.8rem 1rem;
+    background: white;
+    border: 1.5px solid var(--crimson);
+    color: var(--navy);
+    text-align: center;
+    font-size: 0.92rem;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.member-card:hover .member-email {
+    border-color: var(--crimson);
 }
