@@ -1,0 +1,87 @@
+.landing-section,
+.org-hierarchy-section,
+.events-section {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+/* ---------- LANDING ---------- */
+.landing-section {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--brand-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.landing-section h1 {
+    margin: 0 auto;
+    font-family: 'Kawit', sans-serif;
+    font-weight: 800;
+    font-size: 6rem;
+    color: white;
+    text-align: center;
+    line-height: 1.1;
+}
+
+/* ---------- ORG CHART ---------- */
+.org-hierarchy-section .org-chart {
+    max-width: 1700px;
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.org-hierarchy-section h2 {
+    font-family: 'Kawit', sans-serif;
+    text-align: center;
+    font-size: 3.5rem;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    margin-top: 0;
+    background: var(--brand-gradient-horizontal);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* ---------- EVENTS ---------- */
+.events-section h2 {
+    font-family: 'Kawit', sans-serif;
+    text-align: center;
+    font-size: 3.5rem;
+    padding: 20px;
+    margin-top: 0;
+}
+
+/* ---------- RESPONSIVENESS ---------- */
+@media (max-width: 1024px) {
+    .landing-section h1 {
+        font-size: 4.5rem;
+    }
+
+    .org-hierarchy-section h2,
+    .events-section h2 {
+        font-size: 2.75rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .landing-section h1 {
+        font-size: 2.75rem;
+    }
+
+    .org-hierarchy-section h2,
+    .events-section h2 {
+        font-size: 2rem;
+        padding: 15px;
+    }
+}
