@@ -69,12 +69,12 @@
 }
 
 .info-column li:hover a,
-.info-column li:hover .material-symbols-outlined {
+.info-column li:hover .social-media-icons {
     color: var(--crimson);
     cursor: pointer;
 }
 
-.info-column .material-symbols-outlined {
+.info-column .social-media-icons {
     font-size: 1.1rem;
     color: white;
 }

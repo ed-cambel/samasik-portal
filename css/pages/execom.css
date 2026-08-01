@@ -54,9 +54,17 @@
 }
 
 /* ---------- EVENTS ---------- */
-.events-section h2 {
+.task-tracker-section {
+    width: 100%;
+    min-width: 100dvh;
+    min-width: 100vh;
+    background: var(--brand-gradient);
+}
+
+.task-tracker-section h2 {
     font-family: 'Kawit', sans-serif;
     text-align: center;
+    color: white;
     font-size: 3.5rem;
     padding: 20px;
     margin-top: 0;

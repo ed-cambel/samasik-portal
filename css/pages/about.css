@@ -42,7 +42,7 @@
 .hero-section p {
     text-wrap: balance;
     font-size: 1.15rem;
-    max-width: 55ch;
+    max-width: 100dvh;
     margin: 0;
     opacity: 0.9;
 }
@@ -178,13 +178,13 @@
 
 .symbolism-section>h2 {
     font-family: 'Kawit', sans-serif;
-        font-size: clamp(2.25rem, 4vw, 3.5rem);
-        margin: 0 0 2.5rem;
-        text-align: center;
-        background: var(--brand-gradient-horizontal);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
+    font-size: clamp(2.25rem, 4vw, 3.5rem);
+    margin: 0 0 2.5rem;
+    text-align: center;
+    background: var(--brand-gradient-horizontal);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .symbolism-layout {
