@@ -29,13 +29,3 @@ body {
     scroll-behavior: smooth;
     overflow-x: clip;
 }
-
-
-
-.text-gradient {
-    background: var(--brand-gradient);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
-}

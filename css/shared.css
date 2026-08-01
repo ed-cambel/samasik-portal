@@ -1,0 +1,43 @@
+/* ---------- IMPORTANT LINKS CARD ---------- 
+included in:
+> database page
+> execom page
+> events and logistics comm
+> pubs
+> secre
+> finance
+> inventory
+*/
+.links-section-layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    flex: 1;
+    align-items: center;
+}
+
+.links-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+
+    width: 300px;
+    min-height: 275px;
+    margin: 0 auto;
+    padding: 20px 0;
+
+    border-radius: var(--radius-card);
+    border: 3px solid var(--navy);
+    box-shadow: var(--shadow-soft);
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.links-card:hover {
+
+    border-color: var(--crimson);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- RESPONSIVENESS ---------- */

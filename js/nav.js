@@ -2,7 +2,7 @@ document.body.insertAdjacentHTML('afterbegin', `
     <nav class="navbar">
         <div class="nav-container">
             <a href="#top" class="nav-org">
-                <img src="/assets/images/logo_white.png" class="nav-logo">
+                <img src="/assets/images/logo_transparent_ver3.png" alt="Samahang Sikolohiya Logo" class="nav-logo">
                 <span class="nav-org-name">Samahang Sikolohiya</span>
             </a>
     

@@ -67,16 +67,16 @@
     margin-top: 0;
 }
 
-.qr-code {
-    width: 100%;
-    max-width: 200px;
-    height: auto;
-    border-radius: 8px;
-    transition: transform 0.25s ease;
+.repo-card .icon {
+    font-size: 150px;
+    color: var(--navy);
+    transition: transform 0.25s ease, color 0.25s ease;
 }
 
-.repo-card:hover .qr-code {
+.repo:hover .icon {
     transform: scale(1.04);
+    color: var(--crimson);
+
 }
 
 .database-links .repo-card h3 {
@@ -104,6 +104,18 @@
     min-height: 85dvh;
 }
 
+.qr-code {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.25s ease;
+}
+
+.forms-link:hover .qr-code {
+    transform: scale(1.04);
+}
+
 .forms-section-layout {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -129,10 +141,12 @@
     align-items: center;
     text-align: center;
     text-decoration: none;
+
     width: 300px;
-    min-height: 300px;
+    min-height: 275px;
     margin: 0 auto;
     padding: 20px 0;
+    
     border-radius: var(--radius-card);
     border: 3px solid var(--navy);
     box-shadow: var(--shadow-soft);
@@ -161,10 +175,6 @@
     font-weight: 600;
 }
 
-.form-card:hover .qr-code {
-    transform: scale(1.04);
-}
-
 .forms-link h3 {
     font-size: 0.95rem;
     letter-spacing: 0.03em;
@@ -178,8 +188,6 @@
     font-weight: 600;
     transition: color 0.2s ease;
 }
-
-
 
 /* ---------- RESPONSIVENESS ---------- */
 @media (max-width: 900px) {
@@ -199,7 +207,7 @@
         font-size: 2.25rem;
     }
 
-    .qr-code {
+    .icon {
         max-width: 150px;
     }
 
@@ -243,7 +251,7 @@
         font-size: 1.75rem;
     }
 
-    .database-links .qr-code {
+    .forms-links .qr-code {
         max-width: 125px;
     }
 
@@ -267,5 +275,10 @@
         max-width: 280px;
         min-height: auto;
         padding: 10px 0;
+    }
+
+    .form-card .icon {
+        font-size: 100px;
+
     }
 }
