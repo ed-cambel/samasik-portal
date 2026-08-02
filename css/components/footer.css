@@ -34,10 +34,10 @@
 }
 
 .footer-info {
-    display: flex;
-    gap: 3rem;
-    flex-wrap: wrap;
-    flex-direction: nowrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 2rem;
+    width: 100%;
 }
 
 .info-column h3 {
@@ -109,8 +109,13 @@
         text-align: center;
     }
 
+    .info-column:first-child {
+        margin-left: -3rem;
+    }
+
     .footer-info {
-        justify-content: center;
+        grid-template-columns: 1fr;
+        justify-items: center;
         text-align: left;
     }
 }
