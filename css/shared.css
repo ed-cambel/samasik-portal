@@ -8,6 +8,7 @@ included in:
 > finance
 > inventory
 */
+
 .links-section-layout {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -21,23 +22,76 @@ included in:
     align-items: center;
     text-align: center;
     text-decoration: none;
+    justify-content: center;
+    color: var(--navy);
 
     width: 300px;
     min-height: 275px;
     margin: 0 auto;
     padding: 20px 0;
 
-    border-radius: var(--radius-card);
     border: 3px solid var(--navy);
+    border-radius: var(--radius-card);
     box-shadow: var(--shadow-soft);
-    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+}
+
+.links-card h3 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    transition: transform 0.3s ease;
+    letter-spacing: 0.03em;
+}
+
+.links-card span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: color 0.2s ease, transform 0.3s ease;
 }
 
 .links-card:hover {
-
     border-color: var(--crimson);
+    color: var(--crimson);
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
+.links-card h3:hover,
+.links-card span:hover {
+    transform: scale(1.07)
+}
+
 /* ---------- RESPONSIVENESS ---------- */
+@media (max-width: 900px) {
+    .links-section-layout {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .links-card {
+        width: 200px;
+        padding: 12px 0;
+    }
+
+    .links-card h3 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .links-section-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .links-card {
+        width: 100%;
+        max-width: 280px;
+        height: 180px;
+        padding: 10px 0;
+    }
+
+    .links-card h3 {
+        font-size: 1.4rem;
+    }
+}
