@@ -1,11 +1,3 @@
-.committee-section,
-.task-tracker-section,
-.resource-section {
-    width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
-}
-
 /* ---------- LANDING ---------- */
 .landing-section-edres {
     width: 100%;
@@ -43,9 +35,8 @@
     transform-origin: left center;
 }
 
-.landing-section-edres .actual-link:hover {
+.landing-section-edres .link-chat:hover .actual-link {
     color: var(--crimson);
-    text-decoration: underline;
     transform: scale(1.02);
 
 }
@@ -73,6 +64,12 @@
 }
 
 /* ---------- COMMITTEE MEMBERS ---------- */
+.committee-section {
+    width: 100%;
+    padding: var(--section-pad-y) var(--section-pad-x);
+
+}
+
 .committee-section h2 {
     font-family: 'Kawit', sans-serif;
     font-size: 4rem;
@@ -119,12 +116,12 @@
 
 .committee-section .director-block {
     display: grid;
-    grid-template-columns: 500px 1fr;
+    grid-template-columns: 500px max-content;
     gap: 20px;
     align-items: center;
     margin-bottom: 30px;
-    padding-right: 0;
-    margin-right: 0;
+    width: fit-content;
+    margin-inline: auto;
 }
 
 .committee-section .director-name {
@@ -225,8 +222,8 @@
     width: 2.1rem;
     height: 2.1rem;
     border-radius: 50%;
-    background: rgba(159, 6, 17, 0.08);
-    color: var(--crimson);
+    background: rgba(6, 9, 159, 0.08);
+    color: var(--navy);
     font-size: 1rem;
     transition: transform 0.25s ease, background-color 0.25s ease;
 }
@@ -238,14 +235,22 @@
 
 .committee-info .contact-item:hover .material-symbols-outlined {
     transform: scale(1.06);
-    background: rgba(159, 6, 17, 0.14);
+    background: rgba(49, 6, 159, 0.14);
+    color: var(--crimson);
+}
+
+.committee-info .contact-item:focus-visible {
+    outline: 2px solid var(--crimson);
+    outline-offset: 4px;
+    border-radius: 4px;
 }
 
 .members-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-    margin-top: 2rem;
+    row-gap: 1.25rem;
+    column-gap: 0;
+    margin-top: 3rem;
     place-items: center;
 }
 
@@ -255,11 +260,6 @@
     overflow: hidden;
     width: 300px;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.member-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 22px rgba(13, 37, 63, 0.12);
 }
 
 .member-card.wide {
@@ -285,14 +285,162 @@
     margin-top: 0;
     padding: 0.8rem 1rem;
     background: white;
-    border: 1.5px solid var(--crimson);
+    border: 2px solid var(--crimson);
     color: var(--navy);
     text-align: center;
-    font-size: 0.92rem;
-    font-weight: 500;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.3s ease, scale 0.3s ease;
     border-radius: 8px;
 }
 
-.member-card:hover .member-email {
-    border-color: var(--crimson);
+.member-email:hover {
+    color: var(--crimson);
+}
+
+/* ---------- RESOURCES ---------- */
+.resource-section {
+    background: var(--brand-gradient);
+    width: 100%;
+    padding: var(--section-pad-y) var(--section-pad-x);
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+    align-items: center;
+}
+
+.resources-title {
+    color: var(--crimson);
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    letter-spacing: 0.05em;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+
+.container {
+    background: white;
+    width: 70%;
+    padding: 1.5rem;
+    border-radius: var(--radius-card);
+}
+
+.resources-layout {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 1.5rem;
+    place-items: center;
+
+
+}
+
+.container {
+    .resources-link {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+
+        background: white;
+        border: 2px solid var(--crimson);
+        border-radius: 999px;
+
+        color: var(--crimson);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 1rem;
+        padding: 1rem 0.5rem;
+        text-decoration: none;
+        text-align: center;
+        box-sizing: border-box;
+        width: 80%;
+
+        transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    & .resources-link:hover {
+        background: var(--crimson);
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-hover);
+    }
+}
+
+.working-space-section {
+    width: 100%;
+    padding: var(--section-pad-y) var(--section-pad-x);
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+    align-items: center;
+
+    .section-title {
+        font-family: 'Kawit', sans-serif;
+        font-size: 3.5rem;
+        background: var(--brand-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        padding-bottom: 1.75rem;
+    }
+
+    .section-layout {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        place-items: center;
+        width: 50%;
+
+
+        .link-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+
+            text-align: center;
+            text-decoration: none;
+
+            padding: 1rem;
+            border: 2px solid var(--navy);
+            border-radius: 12px;
+            min-height: 300px;
+            min-width: 75%;
+
+            transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+            &:hover {
+                background: var(--navy);
+                color: #fff;
+                transform: translateY(-3px);
+                box-shadow: var(--shadow-hover);
+
+                h3 {
+                    color: white;
+                }
+
+                span {
+                    color: white;
+                }
+            }
+
+            h3 {
+                color: var(--navy);
+                font-size: 2rem;
+                text-transform: uppercase;
+                padding-bottom: 1rem;
+            }
+
+            span {
+                color: var(--navy);
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+        }
+
+    }
+
+
 }

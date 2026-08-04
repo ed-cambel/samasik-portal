@@ -11,14 +11,19 @@
     --navy: #002060;
     --magenta: #3d1643;
     --crimson: #9F0611;
+    --navy-background: 0, 32, 96;
+    --magenta-background: 61, 22, 67;
+    --crimson-background: 159, 6, 17;
+    --background-opacity: 0.08;
+
     --brand-gradient: linear-gradient(135deg, var(--navy) 0%, var(--magenta) 50%, var(--crimson) 100%);
     --brand-gradient-horizontal: linear-gradient(90deg, var(--navy) 0%, var(--magenta) 50%, var(--crimson) 100%);
 
     --radius-card: 16px;
     --shadow-soft: 0 8px 24px rgba(0, 32, 96, 0.08);
-    --shadow-hover: 0 14px 32px rgba(0, 32, 96, 0.14);
-    --section-pad-y: clamp(2rem, 8vh, 4rem);
-    --section-pad-x: clamp(1rem, 5vw, 3rem);
+    --shadow-hover: 0 14px 32px rgba(0, 32, 96, 0.2);
+    --section-pad-y: clamp(0.5rem, 5vh, 2rem);
+    --section-pad-x: clamp(0.5rem, 5vw, 2rem);
 }
 
 * {
