@@ -27,13 +27,13 @@ document.body.insertAdjacentHTML('afterbegin', `
                         Committees <span class="arrow">▼</span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="/committees/executive-comm.html">Executive Committee</a></li>
-                        <li><a href="/committees/edres-comm.html">Lupon ng Edukasyon at Pananaliksik</a></li>
-                        <li><a href="/committees/eventslogs-comm.html">Lupon ng Kaganapan at Pagtustos</a></li>
-                        <li><a href="/committees/creatives-comm.html">Lupon ng Sining at Paglikha</a></li>
-                        <li><a href="/committees/pubs-comm.html">Lupon ng Lathalain</a></li>
-                        <li><a href="/committees/sec-comm.html">Lupon ng Kahiliman</a></li>
-                        <li><a href="/committees/finance-comm.html">Lupon ng Salapi</a></li>
+                        <li><a class="password-protected" data-multi="navigation" href="/committees/executive.html" data-multi="navigation">Executive Committee</a></li>
+                        <li><a class="password-protected" data-multi="navigation" href="/committees/edres.html">Lupon ng Edukasyon at Pananaliksik</a></li>
+                        <li><a class="password-protected" data-multi="navigation" href="/committees/logistics.html">Lupon ng Kaganapan at Pagtustos</a></li>
+                        <li><a class="password-protected" data-multi="navigation" href="/committees/creatives.html">Lupon ng Sining at Paglikha</a></li>
+                        <li><a class="password-protected" data-multi="navigation" href="/committees/publications.html">Lupon ng Lathalain</a></li>
+                        <li><a class="password-protected" data-multi="navigation" href="/committees/secretariat.html">Lupon ng Kahiliman</a></li>
+                        <li><a class="password-protected" data-multi="navigation" href="/committees/finance.html">Lupon ng Salapi</a></li>
                     </ul>
                 </li>
     
