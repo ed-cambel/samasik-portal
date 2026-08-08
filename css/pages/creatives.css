@@ -1,0 +1,4 @@
+.creatives-layout {
+    grid-template-columns: repeat(4, 1fr);
+    width: 90%;
+}

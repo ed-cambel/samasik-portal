@@ -14,17 +14,17 @@
     `;
 
     const multiLinks = {
-        student: {
-            'passwordone': 'https://docs.google.com/document/d/1q6IlU97SQAzOEch1CoJWpQ1wY4P3g2DwzHBA7GknMhU/edit?tab=t.jo819iz6j5l4',
-            'passwordtwo': 'https://www.canva.com/design/DAHNjQvNu1g/bLLjXDnaURxsmCM7tKP9Vw/edit',
+        navigation: {
+            'passwordone': '/committees/executive.html',
+            'passwordtwo': '/committees/edres.html',
+            'passwordthree': '/committees/logistics.html',
+            'passwordfour': '/committees/creatives.html',
+            'passwordfive': '/committees/publications.html'
         },
-        resident: {
-            'passwordone': 'https://docs.google.com/document/d/1q6IlU97SQAzOEch1CoJWpQ1wY4P3g2DwzHBA7GknMhU/edit?tab=t.jo819iz6j5l4',
-            'passwordtwo': 'https://www.canva.com/design/DAHNjQvNu1g/bLLjXDnaURxsmCM7tKP9Vw/edit',
-        },
-        alumni: {
-            'passwordone': 'https://docs.google.com/document/d/1q6IlU97SQAzOEch1CoJWpQ1wY4P3g2DwzHBA7GknMhU/edit?tab=t.jo819iz6j5l4',
-            'passwordtwo': 'https://www.canva.com/design/DAHNjQvNu1g/bLLjXDnaURxsmCM7tKP9Vw/edit',
+        database: {
+            'passwordone': 'https://docs.google.com/spreadsheets/d/1Vn3uAOrsyGDzG23gwIJTg79XK6Qa_DUrGgVsIRCURmQ/edit?usp=sharing',      // BA Pysch Students
+            'passwordtwo': 'https://docs.google.com/spreadsheets/d/1W9ktP5w-joFy2BeB_xX2V9LnYF5rIiOgxpfpxcd_I-4/edit?usp=sharing',      // Residents
+            'passwordthree': 'https://docs.google.com/spreadsheets/d/13UBPlQATxvquySz5-q-KxK_MVix1YKI0cdXuixhJvHI/edit?usp=sharing',    // Alumni
         }
     };
 

@@ -1,24 +1,27 @@
-/* ---- fonts ---- */
+/* ---------- FONTS ---------- */
 @font-face {
     font-family: 'Kawit';
     src: url('../assets/fonts/KawitFree-Italic.ttf') format('truetype');
     font-display: swap;
 }
 
-/* ---- design tokens ---- */
+/* ---------- DESIGN TOKENS ---------- */
 :root {
-    --white: #ffffff;
     --navy: #002060;
-    --magenta: #3d1643;
     --crimson: #9F0611;
+    --gray: #808080;
+    --white: #ffffff;
+    --magenta: #3d1643;
+    --maroon: #760622;
+
     --brand-gradient: linear-gradient(135deg, var(--navy) 0%, var(--magenta) 50%, var(--crimson) 100%);
     --brand-gradient-horizontal: linear-gradient(90deg, var(--navy) 0%, var(--magenta) 50%, var(--crimson) 100%);
 
     --radius-card: 16px;
     --shadow-soft: 0 8px 24px rgba(0, 32, 96, 0.08);
-    --shadow-hover: 0 14px 32px rgba(0, 32, 96, 0.14);
-    --section-pad-y: clamp(2rem, 8vh, 4rem);
-    --section-pad-x: clamp(1rem, 5vw, 3rem);
+    --shadow-hover: 0 14px 32px rgba(0, 32, 96, 0.2);
+    --section-pad-y: clamp(0.5rem, 5vh, 2rem);
+    --section-pad-x: clamp(0.5rem, 5vw, 2rem);
 }
 
 * {
@@ -34,4 +37,39 @@ body {
     font-family: 'Inter', sans-serif;
     scroll-behavior: smooth;
     overflow-x: clip;
+}
+
+/* ---------- LOGO WATERMARK ---------- */
+.watermark {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    z-index: 0;
+
+    img {
+        width: 35%;
+        opacity: 0.06;
+    }
+}
+
+section {
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 1024px) {
+    .watermark img {
+        height: 40%;
+        width: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .watermark img {
+        height: 40%;
+        width: auto;
+    }
 }

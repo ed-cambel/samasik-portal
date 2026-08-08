@@ -30,7 +30,7 @@
 
 /* ---------- ORG CHART ---------- */
 .org-hierarchy-section .org-chart {
-    max-width: 1700px;
+    min-height: 100vh;
     width: 100%;
     text-align: center;
     display: block;
@@ -66,8 +66,50 @@
     text-align: center;
     color: white;
     font-size: 3.5rem;
-    padding: 20px;
+    padding-top: 20px;
     margin-top: 0;
+}
+
+.task-tracker-section .link-redirect {
+    color: white;
+    display: flex;
+    text-decoration: none;
+    justify-content: center;
+    line-height: 1.5;
+    align-items: center;
+}
+
+.bi {
+    font-size: 1.75rem;
+    margin-right: 5px;
+    transition: transform 0.3s ease, color 0.2s ease, scale 0.3s ease;
+}
+
+.link-redirect span {
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.2s ease, transform 0.3s ease, scale 0.3s ease;
+}
+
+.link-redirect:hover .icon {
+    cursor: pointer;
+    transform: scale(1.02);
+    color: var(--crimson);
+}
+
+.link-redirect:hover span {
+    cursor: pointer;
+    transform: scale(1.02);
+    color: var(--crimson);
+}
+
+.links-section {
+    width: 100%;
+    min-height: 60vh;
+    min-height: 60dvh;
+    padding: var(--section-pad-y) var(--section-pad-x);
+    display: flex;
+    flex-direction: column;
 }
 
 /* ---------- RESPONSIVENESS ---------- */
