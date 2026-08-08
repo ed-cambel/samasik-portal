@@ -106,12 +106,12 @@ included in:
     justify-content: center;
 }
 
-.committee-section .director-card {
+.director-card {
     display: flex;
     flex-direction: column;
     align-items: center;
+    align-self: center;
     text-align: center;
-    margin-left: 4rem;
     background: var(--brand-gradient);
     width: 300px;
     gap: 5px;
@@ -125,20 +125,20 @@ included in:
     transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-.committee-section .director-card:hover {
+.director-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 18px 36px rgba(13, 37, 63, 0.18);
 }
 
 
 
-.committee-section .director-pic {
+.director-pic {
     width: 220px;
     height: auto;
     border-radius: var(--radius-card);
 }
 
-.committee-section .director-block {
+.director-block {
     display: grid;
     grid-template-columns: 350px max-content;
     gap: 4rem;
@@ -147,7 +147,7 @@ included in:
     margin-inline: auto;
 }
 
-.committee-section .director-name {
+.director-name {
     color: white;
     font-size: 16px;
     margin-top: 5px;
@@ -155,11 +155,11 @@ included in:
     font-weight: 700;
 }
 
-.committee-section .director-name span {
+.director-name span {
     display: block;
 }
 
-.committee-section .director-name span:last-child {
+.director-name span:last-child {
     font-size: 16px;
     font-weight: 400;
     opacity: 0.85;
@@ -230,7 +230,7 @@ included in:
 
 }
 
-.committee-info .contact-item {
+.contact-item {
     display: flex;
     align-items: center;
     gap: 0.7rem;
@@ -241,7 +241,7 @@ included in:
     transition: transform 0.25s ease, color 0.25s ease;
 }
 
-.committee-info .contact-item .material-symbols-outlined {
+.contact-item .material-symbols-outlined.actual-link {
     display: grid;
     place-items: center;
     width: 2.1rem;
@@ -253,18 +253,20 @@ included in:
     transition: transform 0.25s ease, background-color 0.25s ease;
 }
 
-.committee-info .contact-item:hover {
+.contact-item:hover,
+.contact-item:hover {
     transform: translateY(-2px);
     color: var(--crimson);
 }
 
-.committee-info .contact-item:hover .material-symbols-outlined {
+.contact-item:hover .material-symbols-outlined,
+.contact-item:hover {
     transform: scale(1.06);
     background: rgba(49, 6, 159, 0.14);
     color: var(--crimson);
 }
 
-.committee-info .contact-item:focus-visible {
+.contact-item:focus-visible {
     outline: 2px solid var(--crimson);
     outline-offset: 4px;
     border-radius: 4px;
@@ -344,26 +346,31 @@ included in:
     }
 
     .section-layout {
-        display: grid;
-        place-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.75rem;
+        width: 90%;
+        max-width: 950px;
+        margin: 0 auto;
 
         .link-card {
             position: relative;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            align-items: flex-start;
+            justify-content: space-between;
             background: var(--brand-gradient);
             color: white;
-
-            text-align: center;
+            text-align: left;
             text-decoration: none;
+            width: 275px;
 
             padding: 1rem;
 
-            border-radius: 12px;
-            min-height: 400px;
-            width: 90%;
+            border-radius: var(--radius-card);
+            min-height: 250px;
+            flex: 0 1 260px;
 
             transition: all 0.4s ease;
 
@@ -384,34 +391,41 @@ included in:
 
             h3 {
 
-                font-size: 2rem;
+                font-size: 1.2rem;
+                font-weight: 700;
+                line-height: 1.25;
                 text-transform: uppercase;
-                padding-bottom: 1rem;
+                letter-spacing: 0;
+                color: white;
+                margin: 0;
+
             }
 
             span {
 
-                font-size: 1rem;
+                font-size: 0.75rem;
                 font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: white;
+                opacity: 0.85;
             }
-
         }
 
     }
 }
 
-.working-space-section .link-card:nth-child(1):hover,
-.working-space-section .link-card:nth-child(4):hover {
+.working-space-section .link-card:nth-child(3n+1):hover {
     background: var(--navy);
     border-color: var(--navy);
 }
 
-.working-space-section .link-card:nth-child(2):hover {
+.working-space-section .link-card:nth-child(3n+2):hover {
     background: var(--magenta);
     border-color: var(--magenta);
 }
 
-.working-space-section .link-card:nth-child(3):hover {
+.working-space-section .link-card:nth-child(3n+3):hover {
     background: var(--crimson);
     border-color: var(--crimson);
 }
