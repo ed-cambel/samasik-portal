@@ -1,0 +1,124 @@
+/* ---------- MAP ---------- */
+.maps-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+
+    color: var(--navy);
+    text-decoration: none;
+    font-size: 3rem;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    border: 3px solid var(--navy);
+    border-radius: 20px;
+    transition: color 0.2s ease, border-color 0.3s ease;
+
+    &:hover {
+        color: var(--crimson);
+        border-color: var(--crimson);
+    }
+}
+
+.bi {
+    font-size: 3rem;
+}
+
+.location-section {
+    width: 100%;
+    padding: var(--section-pad-y) var(--section-pad-x);
+    text-align: center;
+    border: 3px solid transparent;
+    background:
+        linear-gradient(white, white) padding-box,
+        var(--brand-gradient) border-box;
+}
+
+.location-section .section-heading {
+    font-family: 'Kawit', sans-serif;
+    font-size: 2.5rem;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-bottom: 1.75rem;
+}
+
+.map-card {
+    width: 93.5%;
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border: 3px solid color-mix(in srgb, var(--magenta) 35%, transparent);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    text-align: left;
+}
+
+.map-embed {
+    width: 100%;
+    aspect-ratio: 16 / 6;
+}
+
+.map-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+.map-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    border-top: 1.5px solid var(--crimson);
+}
+
+.map-address .address-line {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 0;
+}
+
+.map-address .address-sub {
+    font-size: 0.9rem;
+    color: var(--navy);
+    opacity: 0.75;
+    margin: 4px 0 0;
+}
+
+.map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--brand-gradient);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.75rem 1.4rem;
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.map-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.logistic-layout {
+    grid-template-columns: repeat(3, 1fr);
+    width: 70%;
+}

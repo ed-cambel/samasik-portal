@@ -1,3 +1,488 @@
+/* ---------- HERO ---------- 
+included in:
+> committee pages
+*/
+
+.comm-hero-section {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    background: var(--brand-gradient);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .comm-title {
+        font-family: 'Kawit', sans-serif;
+        font-size: clamp(2.5rem, 8vw, 6rem);
+        padding-bottom: 0.8rem;
+        color: white;
+    }
+
+    .comm-title-eng {
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        color: white;
+        margin-bottom: 0.5rem;
+        opacity: 0.7;
+
+    }
+
+    .link-chat {
+        color: white;
+        opacity: 0.7;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-top: 20px;
+        transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+        font-size: clamp(0.875rem, 2vw, 1rem);
+        transform-origin: left center;
+
+        &:hover {
+            .actual-link {
+                color: var(--crimson);
+                transform: scale(1.02);
+            }
+
+            .messenger-icon {
+                transform: scale(1.1);
+                color: var(--crimson);
+            }
+        }
+
+        .actual-link {
+            color: white;
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            display: inline-block;
+            transform-origin: left center;
+            transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .messenger-icon {
+            font-size: clamp(1.25rem, 3vw, 1.875rem);
+            line-height: 1;
+            width: auto;
+            height: auto;
+            flex-shrink: 0;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+    }
+}
+
+/* ---------- COMMITTEE MEMBERS ---------- */
+.committee-section {
+    width: 100%;
+    padding: var(--section-pad-y) var(--section-pad-x);
+
+}
+
+.committee-section h2 {
+    font-family: 'Kawit', sans-serif;
+    font-size: 4rem;
+    padding: 20px;
+    text-align: center;
+    background: var(--brand-gradient-horizontal);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.director-container {
+    width: 93.5%;
+
+    border: 3px solid transparent;
+    border-radius: 20px;
+    background:
+        linear-gradient(white, white) padding-box,
+        var(--brand-gradient) border-box;
+
+    border-radius: 20px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.committee-section .director-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-left: 4rem;
+    background: var(--brand-gradient);
+    width: 300px;
+    gap: 5px;
+    padding-top: 30px;
+    box-shadow: var(--shadow-soft);
+    border-radius: var(--radius-card);
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.committee-section .director-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 36px rgba(13, 37, 63, 0.18);
+}
+
+
+
+.committee-section .director-pic {
+    width: 220px;
+    height: auto;
+    border-radius: var(--radius-card);
+}
+
+.committee-section .director-block {
+    display: grid;
+    grid-template-columns: 350px max-content;
+    gap: 4rem;
+    padding: 2rem;
+    align-items: left;
+    margin-inline: auto;
+}
+
+.committee-section .director-name {
+    color: white;
+    font-size: 16px;
+    margin-top: 5px;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+.committee-section .director-name span {
+    display: block;
+}
+
+.committee-section .director-name span:last-child {
+    font-size: 16px;
+    font-weight: 400;
+    opacity: 0.85;
+    font-style: italic;
+    padding-bottom: 10px;
+}
+
+.committee-info {
+    grid-column: span 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+
+
+    margin: 0;
+    padding: 0 0 0 2rem;
+    border-left: 1.5px solid var(--crimson);
+}
+
+.committee-info h3 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    margin: 0 0 1.5rem;
+}
+
+.committee-info h3 span {
+    color: var(--crimson);
+}
+
+.committee-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.committee-info ul li {
+    position: relative;
+    padding-left: 1.25rem;
+    font-size: 1.08rem;
+    line-height: 1.75;
+    color: var(--navy);
+}
+
+.committee-info ul li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.78em;
+    width: 0.38rem;
+    height: 0.38rem;
+    border-radius: 50%;
+    background: var(--crimson);
+}
+
+.committee-info .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    width: 100%;
+
+}
+
+.committee-info .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--navy);
+    text-decoration: none;
+    transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.committee-info .contact-item .material-symbols-outlined {
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    background: rgba(6, 9, 159, 0.08);
+    color: var(--navy);
+    font-size: 1rem;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.committee-info .contact-item:hover {
+    transform: translateY(-2px);
+    color: var(--crimson);
+}
+
+.committee-info .contact-item:hover .material-symbols-outlined {
+    transform: scale(1.06);
+    background: rgba(49, 6, 159, 0.14);
+    color: var(--crimson);
+}
+
+.committee-info .contact-item:focus-visible {
+    outline: 2px solid var(--crimson);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.members-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 1.25rem;
+    column-gap: 0;
+    margin-top: 3rem;
+    place-items: center;
+}
+
+.member-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 300px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.member-card.wide {
+    grid-column: span 2;
+}
+
+.member-name {
+    margin: 0;
+    padding: 0.95rem 1rem;
+    background: var(--brand-gradient);
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+
+}
+
+.member-email {
+    margin: 0;
+    margin-top: 0;
+    padding: 0.8rem 1rem;
+    background: white;
+    border: 2px solid var(--crimson);
+    color: var(--navy);
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.3s ease, scale 0.3s ease;
+    border-radius: 8px;
+}
+
+.member-email:hover {
+    color: var(--crimson);
+}
+
+.working-space-section {
+    width: 100%;
+    padding: var(--section-pad-y) var(--section-pad-x);
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+    align-items: center;
+
+    .section-title {
+        font-family: 'Kawit', sans-serif;
+        font-size: 3.5rem;
+        background: var(--brand-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        padding-bottom: 1.75rem;
+    }
+
+    .section-layout {
+        display: grid;
+        place-items: center;
+
+        .link-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--brand-gradient);
+            color: white;
+
+            text-align: center;
+            text-decoration: none;
+
+            padding: 1rem;
+
+            border-radius: 12px;
+            min-height: 400px;
+            width: 90%;
+
+            transition: all 0.4s ease;
+
+            &:hover {
+                background: var(--navy);
+                color: #fff;
+                transform: translateY(-3px);
+                box-shadow: var(--shadow-hover);
+
+                h3 {
+                    color: white;
+                }
+
+                span {
+                    color: white;
+                }
+            }
+
+            h3 {
+
+                font-size: 2rem;
+                text-transform: uppercase;
+                padding-bottom: 1rem;
+            }
+
+            span {
+
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+        }
+
+    }
+}
+
+.working-space-section .link-card:nth-child(1):hover,
+.working-space-section .link-card:nth-child(4):hover {
+    background: var(--navy);
+    border-color: var(--navy);
+}
+
+.working-space-section .link-card:nth-child(2):hover {
+    background: var(--magenta);
+    border-color: var(--magenta);
+}
+
+.working-space-section .link-card:nth-child(3):hover {
+    background: var(--crimson);
+    border-color: var(--crimson);
+}
+
+@media (max-width: 1024px) {
+    .members-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .member-card.wide {
+        grid-column: span 2;
+    }
+
+    .resources-layout {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .container {
+        width: min(85%, 900px);
+    }
+}
+
+@media (max-width: 640px) {
+    .committee-section .director-block {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+    }
+
+    .committee-info {
+        place-items: center;
+        padding-left: 0;
+        border-left: none;
+        border-top: 1.5px solid var(--crimson);
+        padding-top: 1.5rem;
+        margin-left: 10px;
+    }
+
+    .committee-info .contact-row {
+        justify-content: center;
+    }
+
+    .members-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .member-card,
+    .member-card.wide {
+        grid-column: span 1;
+        max-width: 100%;
+    }
+
+    .resources-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        width: 90%;
+    }
+
+    .resources-link {
+        width: 100%;
+    }
+
+    .working-space-section .section-layout {
+        grid-template-columns: 1fr;
+        width: 90%;
+    }
+}
+
+
 /* ---------- IMPORTANT LINKS CARD ---------- 
 included in:
 > database page

@@ -17,7 +17,9 @@
         navigation: {
             'passwordone': '/committees/executive.html',
             'passwordtwo': '/committees/edres.html',
-
+            'passwordthree': '/committees/logistics.html',
+            'passwordfour': '/committees/creatives.html',
+            'passwordfive': '/committees/publications.html'
         },
         database: {
             'passwordone': 'https://docs.google.com/spreadsheets/d/1Vn3uAOrsyGDzG23gwIJTg79XK6Qa_DUrGgVsIRCURmQ/edit?usp=sharing',      // BA Pysch Students
