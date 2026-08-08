@@ -37,16 +37,7 @@ document.body.insertAdjacentHTML('afterbegin', `
                     </ul>
                 </li>
     
-                <li class="dropdown">
-                    <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                        Inventory <span class="arrow">▼</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="/inventory.html">Borrowing Instructions</a></li>
-                        <li><a href="/inventory.html">Inventory Sheet</a></li>
-                        <li><a href="/inventory.html">Downloadable Forms</a></li>
-                    </ul>
-                </li>
+                <li><a href="/inventory.html" class="nav-link">Inventory</a></li>
             </ul>
     
             <div class="nav-backdrop" id="navBackdrop"></div>
