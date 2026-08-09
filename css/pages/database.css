@@ -13,13 +13,13 @@
 }
 
 .database-section-layout {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    row-gap: 2rem;
-    column-gap: 0;
-    flex: 1;
-    min-height: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .database-links .repo-card {
@@ -71,10 +71,11 @@
 }
 
 .database-links .repo-card h3 {
-    font-size: 0.95rem;
+    font-size: 1.2rem;
     letter-spacing: 0.03em;
     margin: 12px 0 4px;
     color: var(--navy);
+    text-transform: uppercase;
 }
 
 .database-links .repo-card span {

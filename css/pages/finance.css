@@ -68,7 +68,7 @@
     justify-content: center;
     gap: 1.75rem;
     width: 90%;
-    max-width: 950px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -78,6 +78,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    text-transform: uppercase;
     align-items: flex-start;
     width: 275px;
     text-align: left;

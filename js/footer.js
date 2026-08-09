@@ -41,7 +41,7 @@ document.body.insertAdjacentHTML('beforeend', `
 
                             <li>
                                 <i class="bi bi-instagram social-media-icons"></i>
-                                <a href="https://www.instagram.com/upvsamasik" target="_blank" rel="noopener">Samahang Sikolohiya</a>
+                                <a href="https://www.instagram.com/upv.samasik/" target="_blank" rel="noopener">upv.samasik</a>
                             </li>
 
                             <li>
