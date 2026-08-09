@@ -349,9 +349,9 @@ included in:
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 1.75rem;
+        gap: 2rem;
         width: 90%;
-        max-width: 950px;
+        max-width: 1200px;
         margin: 0 auto;
 
         .link-card {
@@ -359,7 +359,7 @@ included in:
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            justify-content: space-between;
+            justify-content: flex-start;
             background: var(--brand-gradient);
             color: white;
             text-align: left;
@@ -375,7 +375,6 @@ included in:
             transition: all 0.4s ease;
 
             &:hover {
-                background: var(--navy);
                 color: #fff;
                 transform: translateY(-3px);
                 box-shadow: var(--shadow-hover);
@@ -402,7 +401,7 @@ included in:
             }
 
             span {
-
+                margin-top: auto;
                 font-size: 0.75rem;
                 font-weight: 600;
                 text-transform: uppercase;
@@ -508,57 +507,6 @@ included in:
 > inventory
 */
 
-.links-section-layout {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    flex: 1;
-    align-items: center;
-}
-
-.links-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    text-decoration: none;
-    justify-content: center;
-    background: var(--brand-gradient);
-    color: white;
-
-    width: 300px;
-    min-height: 275px;
-    margin: 0 auto;
-    padding: 20px 0;
-
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-soft);
-    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
-}
-
-.links-card h3 {
-    font-size: 1.65rem;
-    margin-bottom: 0.7rem;
-    transition: transform 0.3s ease;
-    letter-spacing: 0.03em;
-    text-wrap: balance;
-}
-
-.links-card span {
-    font-size: 1rem;
-    font-weight: 600;
-    transition: color 0.2s ease, transform 0.3s ease;
-}
-
-.links-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-}
-
-.links-card:hover h3,
-.links-card:hover span {
-    transform: scale(1.05);
-    cursor: pointer
-}
 
 /* ---------- RESPONSIVENESS ---------- */
 @media (max-width: 900px) {
@@ -567,14 +515,6 @@ included in:
         gap: 1rem;
     }
 
-    .links-card {
-        width: 200px;
-        padding: 12px 0;
-    }
-
-    .links-card h3 {
-        font-size: 1.6rem;
-    }
 }
 
 @media (max-width: 600px) {
@@ -583,14 +523,5 @@ included in:
         gap: 1rem;
     }
 
-    .links-card {
-        width: 100%;
-        max-width: 280px;
-        height: 180px;
-        padding: 10px 0;
-    }
 
-    .links-card h3 {
-        font-size: 1.4rem;
-    }
 }

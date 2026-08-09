@@ -36,10 +36,10 @@
     width: 100%;
     padding: var(--section-pad-y) var(--section-pad-x);
     text-align: center;
-    border: 3px solid transparent;
-    background:
-        linear-gradient(white, white) padding-box,
-        var(--brand-gradient) border-box;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.08),
+        0 12px 28px rgba(0, 0, 0, 0.12);
 }
 
 .location-section .section-heading {

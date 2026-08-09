@@ -92,7 +92,7 @@
 
 .execom-picture img {
     width: 830px;
-    height: auto;
+    max-width: 100%;
 }
 
 .execom-positions {
@@ -106,7 +106,7 @@
 }
 
 .execom-positions h2 {
-    font-size: clamp(2rem, 1.5vw + 0.5rem, 1.6rem);
+    font-size: clamp(1.6rem, 1.5vw + 0.5rem, 2rem);
     margin-bottom: 0.2em;
     line-height: 1.2;
     font-family: 'Kawit', sans-serif;
@@ -146,7 +146,7 @@
 .execom-col strong,
 .execom-advisers strong {
     text-transform: uppercase;
-    letter-spacing: 0.06rem;
+
 }
 
 .execom-col span,
@@ -192,7 +192,7 @@
     padding: 1.25rem 1.5rem;
     background: #fff;
     border: none;
-    border-radius: 10px;
+    border-radius: var(--radius-card);
     text-decoration: none;
     color: var(--navy);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
@@ -231,7 +231,7 @@
 }
 
 /* ---------- RESOURCES ---------- */
-.resources {
+.quick-links {
     justify-self: center;
     width: 52.5%;
     background-color: white;
@@ -240,7 +240,7 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-.resources h3 {
+.quick-links h3 {
     color: var(--crimson);
     text-transform: uppercase;
     font-size: 1.5rem;
@@ -249,13 +249,13 @@
     text-align: center;
 }
 
-.resources-layout {
+.quick-links-layout {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;
 }
 
-.resource-link {
+.link {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -264,11 +264,12 @@
     height: 4.5rem;
     padding: 0.75rem 1rem;
 
-    border: 2px solid var(--navy);
-    border-radius: var(--radius-card);
+    background: var(--brand-gradient);
+
+    border-radius: 99px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 
-    color: var(--navy);
+    color: white;
     font-weight: 600;
     text-decoration: none;
     text-align: center;
@@ -277,12 +278,25 @@
     transition: transform 0.15s ease, box-shadow 0.15s ease, color 0.15s ease, border-color 0.15s ease, font-size 0.15s ease;
 }
 
-.resource-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+.link:hover {
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.link:nth-child(3n+1):hover {
+    background: var(--navy);
+    border-color: var(--navy);
+}
+
+.link:nth-child(3n+2):hover {
+    background: var(--magenta);
+    border-color: var(--magenta);
+}
+
+.link:nth-child(3n+3):hover {
+    background: var(--crimson);
     border-color: var(--crimson);
-    color: var(--crimson);
-    font-size: 1.05rem;
 }
 
 /* ---------- CALENDAR ---------- */
@@ -320,7 +334,7 @@
         max-width: 400px;
     }
 
-    .resources {
+    .quick-links {
         width: 75%;
     }
 
@@ -382,12 +396,12 @@
         padding: 1rem;
     }
 
-    .resources {
+    .quick-links {
         width: 90%;
         padding: 1rem;
     }
 
-    .resources-layout {
+    .quick-links-layout {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
