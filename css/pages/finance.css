@@ -1,0 +1,130 @@
+.committee-section .director-block-finance {
+    display: grid;
+    grid-template-columns: 350px 650px 318px;
+    align-items: center;
+    margin-inline: auto;
+    padding: 2rem;
+
+}
+
+.director-container-finance {
+    width: 93.5%;
+
+    border: 3px solid transparent;
+    border-radius: 20px;
+    background:
+        linear-gradient(white, white) padding-box,
+        var(--brand-gradient) border-box;
+
+    border-radius: 20px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.committee-section .director-block-finance .committee-info-finance {
+    border-right: 1.5px solid var(--crimson);
+    border-left: 1.5px solid var(--crimson);
+    padding-right: 2rem;
+    padding-left: 3rem;
+
+}
+
+.director-card-finance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    background: var(--brand-gradient);
+    width: 300px;
+    gap: 5px;
+    padding-top: 30px;
+    box-shadow: var(--shadow-soft);
+    border-radius: var(--radius-card);
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+
+    &:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 36px rgba(13, 37, 63, 0.18);
+    }
+
+    &:nth-child(1 of .director-card-finance) {
+        margin-right: 10rem;
+    }
+
+    &:nth-child(2 of .director-card-finance) {
+        margin-left: 3rem;
+    }
+}
+
+.section-layout-finance {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.75rem;
+    width: 90%;
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+.link-card-finance {
+    flex: 0 1 260px;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 275px;
+    text-align: left;
+    background: var(--brand-gradient);
+    color: white;
+    border-radius: var(--radius-card);
+    padding: 1.75rem 1.5rem;
+    box-shadow: var(--shadow-soft);
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.link-card-finance:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+
+.link-card-finance h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-transform: none;
+    letter-spacing: 0;
+    color: white;
+    margin: 0;
+}
+
+.link-card-finance span {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: white;
+    opacity: 0.85;
+}
+
+.working-space-section .link-card-finance:nth-child(3n+1):hover {
+    background: var(--navy);
+    border-color: var(--navy);
+}
+
+.working-space-section .link-card-finance:nth-child(3n+2):hover {
+    background: var(--magenta);
+    border-color: var(--magenta);
+}
+
+.working-space-section .link-card-finance:nth-child(3n+3):hover {
+    background: var(--crimson);
+    border-color: var(--crimson);
+}
