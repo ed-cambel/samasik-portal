@@ -13,20 +13,7 @@
         </div>
     `;
 
-    const multiLinks = {
-        navigation: {
-            'passwordone': '/committees/executive.html',
-            'passwordtwo': '/committees/edres.html',
-            'passwordthree': '/committees/logistics.html',
-            'passwordfour': '/committees/creatives.html',
-            'passwordfive': '/committees/publications.html'
-        },
-        database: {
-            'passwordone': 'https://docs.google.com/spreadsheets/d/1Vn3uAOrsyGDzG23gwIJTg79XK6Qa_DUrGgVsIRCURmQ/edit?usp=sharing',      // BA Pysch Students
-            'passwordtwo': 'https://docs.google.com/spreadsheets/d/1W9ktP5w-joFy2BeB_xX2V9LnYF5rIiOgxpfpxcd_I-4/edit?usp=sharing',      // Residents
-            'passwordthree': 'https://docs.google.com/spreadsheets/d/13UBPlQATxvquySz5-q-KxK_MVix1YKI0cdXuixhJvHI/edit?usp=sharing',    // Alumni
-        }
-    };
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwO639x9cg2gxNFI8XCArsCoIhSDBANlD02KfW3X-Vmrw9LRmxmQzqGcqMgZSsFO2-GUQ/exec"; // ends in /exec
 
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 
@@ -53,24 +40,37 @@
         activeLink = null;
     }
 
-    function submitPassword() {
+    async function submitPassword() {
         const entered = input.value.trim();
+        const category = activeLink.dataset.multi;
 
-        if (activeLink.dataset.multi) {
-            const targetUrl = multiLinks[activeLink.dataset.multi][entered];
-            if (targetUrl) {
-                window.location.href = targetUrl;
+        if (!category) {
+            error.textContent = 'This link is not configured correctly.';
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Checking...';
+
+        try {
+            const res = await fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ password: entered, category })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                window.location.href = data.url;
             } else {
                 error.textContent = 'Incorrect password.';
                 input.focus();
             }
-        } else {
-            if (entered === passwords[activeLink.dataset.url]) {
-                window.location.href = activeLink.dataset.url;
-            } else {
-                error.textContent = 'Incorrect password.';
-                input.focus();
-            }
+        } catch (err) {
+            error.textContent = 'Something went wrong. Please try again.';
+            console.error(err);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit';
         }
     }
 
