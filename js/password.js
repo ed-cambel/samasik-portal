@@ -13,7 +13,7 @@
         </div>
     `;
 
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwO639x9cg2gxNFI8XCArsCoIhSDBANlD02KfW3X-Vmrw9LRmxmQzqGcqMgZSsFO2-GUQ/exec"; // ends in /exec
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNs5wU70tvM4tEtyPhr-1C0Z4c1t0PL-JTIIwLAnhIbpF7Ja3c_zkkMOmxnWsN8CZkMQ/exec"; // ends in /exec
 
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 
