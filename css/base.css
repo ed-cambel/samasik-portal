@@ -14,6 +14,11 @@
     --magenta: #3d1643;
     --maroon: #760622;
 
+    --access-green: #00C853;
+    --line: rgba(0, 32, 96, 0.12);
+    --sub-text: rgba(255, 255, 255, 0.7);
+    --gray-background: #FAFAFB;
+
     --brand-gradient: linear-gradient(135deg, var(--navy) 0%, var(--magenta) 50%, var(--crimson) 100%);
     --brand-gradient-horizontal: linear-gradient(90deg, var(--navy) 0%, var(--magenta) 50%, var(--crimson) 100%);
 

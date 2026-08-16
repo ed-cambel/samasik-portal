@@ -38,10 +38,8 @@
 .drawer-header,
 .nav-backdrop {
     display: none;
-    /* Hidden on Desktop */
 }
 
-/* Nav Links Horizontal Row */
 .nav-links {
     display: flex;
     align-items: center;
@@ -49,6 +47,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
+
 }
 
 
@@ -63,6 +62,8 @@
     color: var(--white, #ffffff);
     cursor: pointer;
     text-decoration: none;
+
+    font-weight: 500;
     display: flex;
     align-items: center;
     gap: 0.35rem;
