@@ -484,6 +484,7 @@
 .psychalendar-section {
     width: 100%;
     padding: var(--section-pad-y) var(--section-pad-x);
+    padding-bottom: 1rem;
     background-color: var(--gray-background);
 
     .heading-container {

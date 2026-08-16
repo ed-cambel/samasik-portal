@@ -27,6 +27,18 @@
     --shadow-hover: 0 14px 32px rgba(0, 32, 96, 0.2);
     --section-pad-y: clamp(0.5rem, 5vh, 2rem);
     --section-pad-x: clamp(0.5rem, 5vw, 2rem);
+
+    --navy: #002060;
+    --magenta: #3d1643;
+    --crimson: #9F0611;
+    --ink: #1b1b1f;
+    --muted: #6b6b76;
+    --bg: #f5f5f8;
+    --card: #ffffff;
+    --border: #e2e2ea;
+    --today-bg: #fff4e5;
+    --radius: 10px;
+    --shadow: 0 8px 30px rgba(0, 10, 40, 0.12);
 }
 
 * {
