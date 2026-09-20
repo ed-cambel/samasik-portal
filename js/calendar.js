@@ -22,47 +22,18 @@ const categoryColors = {
 // FETCH EVENTS
 // ---------------------------------------------------------
 function parseLocalDate(value) {
-    if (!value) {
-        return null;
-    }
-
+    if (!value) return null;
     const dateString = String(value).slice(0, 10);
-
-    const [year, month, day] =
-        dateString.split("-").map(Number);
-
-    return new Date(
-        year,
-        month - 1,
-        day
-    );
+    const [year, month, day] = dateString.split("-").map(Number);
+    return new Date(year, month - 1, day);
 }
 
-
 function parseLocalDateTime(value) {
-    if (!value) {
-        return null;
-    }
-
-    const dateString = String(value);
-
-    const [datePart, timePart = "00:00:00"] =
-        dateString.split("T");
-
-    const [year, month, day] =
-        datePart.split("-").map(Number);
-
-    const [hours, minutes, seconds = 0] =
-        timePart.split(":").map(Number);
-
-    return new Date(
-        year,
-        month - 1,
-        day,
-        hours,
-        minutes,
-        Number(seconds)
-    );
+    if (!value) return null;
+    // Supabase returns "2026-09-23 19:18:00+00" — normalize the space to "T"
+    // so the browser's native Date parser can handle the timezone offset correctly.
+    const normalized = String(value).replace(" ", "T");
+    return new Date(normalized);
 }
 
 async function fetchEvents() {
@@ -828,6 +799,7 @@ if (form) {
             // PAYLOAD
             // -------------------------------------------------
 
+            console.log("Sending start_time:", start_time);
             const payload = {
                 title: title,
 
