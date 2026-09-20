@@ -557,12 +557,58 @@
     }
 }
 
-.event-location {
-    font-size: 11px;
+.event-location-clip {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 9.5px;
+    font-weight: 400;
     opacity: 0.85;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.event-location-clip i {
+    font-size: 9px;
+    flex-shrink: 0;
+}
+
+.event-location-clip span {
+    overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bi-geo-alt-fill {
+    color: var(--navy);
+}
+
+.ec-list .event-location-clip {
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+.ec-list .event-location-clip i {
+    font-size: 10px;
+}
+
+.details-location {
+    font-size: 0.88rem;
+    color: var(--ink);
+    margin: 0 0 14px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.details-location i {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+/* Give it a bit more breathing room in list view, where rows are taller */
+.ec-list .event-location-clip {
+    font-size: 11px;
     margin-top: 2px;
 }
 

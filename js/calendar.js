@@ -158,139 +158,77 @@ document.addEventListener("DOMContentLoaded", async () => {
         // -------------------------------------------------
 
         eventDidMount: (info) => {
-            const {
-                category,
-                location,
-                description
-            } = info.event.extendedProps;
-
+            const { category, location, description } = info.event.extendedProps;
             const dateStr = info.event.start.toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
                 year: "numeric"
             });
 
-            // Build time string only for timed events
             let timeStr = "";
-
             if (!info.event.allDay) {
                 const startTime = info.event.start.toLocaleTimeString("en-US", {
                     hour: "numeric",
                     minute: "2-digit"
                 });
-
                 if (info.event.end) {
                     const endTime = info.event.end.toLocaleTimeString("en-US", {
                         hour: "numeric",
                         minute: "2-digit"
                     });
-
                     timeStr = ` · ${startTime} - ${endTime}`;
                 } else {
                     timeStr = ` · ${startTime}`;
                 }
             }
 
-            // Clip long event titles
-            const titleEl = info.el.querySelector(".ec-event-title");
+            // Defer to the next animation frame, giving the browser time to
+            // finish rendering the event's inner elements first
+            requestAnimationFrame(() => {
+                const titleEl = info.el.querySelector(".ec-event-title");
+                if (titleEl) {
+                    titleEl.classList.add("event-title-clip");
 
-            if (titleEl) {
-                titleEl.classList.add("event-title-clip");
+                    // Only show location in list view, not month/grid view
+                    const isListView = calendar.getOption("view") === "listMonth";
 
-                if (location) {
-                    const locationEl = document.createElement("div");
-
-                    locationEl.className = "event-location";
-
-                    locationEl.textContent = `📍 ${location}`;
-
-                    titleEl.parentElement.appendChild(locationEl);
+                    if (isListView && location && !titleEl.nextElementSibling?.classList.contains("event-location-clip")) {
+                        const locationEl = document.createElement("div");
+                        locationEl.className = "event-location-clip";
+                        locationEl.innerHTML = `<i class="bi bi-geo-alt-fill"></i><span>${location}</span>`;
+                        titleEl.insertAdjacentElement("afterend", locationEl);
+                    }
                 }
-            }
-
-
-            // -------------------------------------------------
-            // TOOLTIP
-            // -------------------------------------------------
+            });
 
             const tooltip = document.createElement("div");
-
             tooltip.className = "custom-tooltip";
-
             tooltip.innerHTML = `
-                <div class="tooltip-title">
-                    ${escapeHtml(info.event.title)}
-                </div>
-
-                <div class="tooltip-meta">
-                    ${category ? escapeHtml(category) + " · " : ""}
-                    ${dateStr}${timeStr}
-                </div>
-
-                ${location
-                    ? `<div class="tooltip-location">${escapeHtml(location)}</div>`
-                    : ""
-                }
-
-                ${description
-                    ? `<div class="tooltip-desc">${escapeHtml(description)}</div>`
-                    : ""
-                }
+                <div class="tooltip-title">${info.event.title}</div>
+                <div class="tooltip-meta">${category ? category + " · " : ""}${dateStr}${timeStr}</div>
+                ${location ? `<div class="tooltip-location">${location}</div>` : ""}
+                ${description ? `<div class="tooltip-desc">${description}</div>` : ""}
             `;
-
             document.body.appendChild(tooltip);
 
-            // Hide tooltip initially
-            tooltip.style.display = "none";
-
-            // Show tooltip
             info.el.addEventListener("mouseenter", () => {
                 const rect = info.el.getBoundingClientRect();
-
                 tooltip.style.display = "block";
 
-                // Measure tooltip
                 const tooltipRect = tooltip.getBoundingClientRect();
 
-                // Center horizontally
-                let left =
-                    rect.left +
-                    rect.width / 2 -
-                    tooltipRect.width / 2;
+                let left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+                left = Math.max(8, Math.min(left, window.innerWidth - tooltipRect.width - 8));
 
-                // Keep inside viewport
-                left = Math.max(
-                    8,
-                    Math.min(
-                        left,
-                        window.innerWidth - tooltipRect.width - 8
-                    )
-                );
-
-                // Default: below event
                 let top = rect.bottom + 8;
-
-                // If overflowing bottom, show above
-                if (
-                    top + tooltipRect.height >
-                    window.innerHeight
-                ) {
-                    top =
-                        rect.top -
-                        tooltipRect.height -
-                        8;
-                }
-
-                // Make sure it doesn't go above viewport
-                if (top < 8) {
-                    top = 8;
+                if (top + tooltipRect.height > window.innerHeight) {
+                    top = rect.top - tooltipRect.height - 8;
                 }
 
                 tooltip.style.left = `${left}px`;
                 tooltip.style.top = `${top}px`;
             });
 
-            // Hide tooltip
             info.el.addEventListener("mouseleave", () => {
                 tooltip.style.display = "none";
             });
@@ -335,98 +273,50 @@ function escapeHtml(value) {
 const detailsModal = document.getElementById("details-modal");
 
 let currentDetailsEvent = null;
-
-
 function openDetailsModal(event) {
-    if (!detailsModal) {
-        console.error("#details-modal was not found.");
-        return;
-    }
-
     currentDetailsEvent = event;
+    const { category, description, location } = event.extendedProps;
 
-    const {
-        category,
-        description,
-        location
-    } = event.extendedProps || {};
+    const badge = document.getElementById("details-category-badge");
+    badge.textContent = category || "Event";
+    badge.style.background = categoryColors[category] || "#6b6b76";
 
-    // Category badge
-    const badge = document.getElementById(
-        "details-category-badge"
-    );
+    document.getElementById("details-title").textContent = event.title;
 
-    if (badge) {
-        badge.textContent = category || "Event";
-
-        badge.style.background =
-            categoryColors[category] || "#6b6b76";
-    }
-
-    // Title
-    const titleEl = document.getElementById(
-        "details-title"
-    );
-
-    if (titleEl) {
-        titleEl.textContent = event.title;
-    }
-
-    // Date
     let dateText = event.start.toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
         year: "numeric"
     });
 
-    // Time
     if (!event.allDay) {
         const startTime = event.start.toLocaleTimeString("en-US", {
             hour: "numeric",
             minute: "2-digit"
         });
-
         if (event.end) {
             const endTime = event.end.toLocaleTimeString("en-US", {
                 hour: "numeric",
                 minute: "2-digit"
             });
-
             dateText += ` · ${startTime} - ${endTime}`;
         } else {
             dateText += ` · ${startTime}`;
         }
     }
 
-    const dateEl = document.getElementById(
-        "details-date"
-    );
+    document.getElementById("details-date").textContent = dateText;
 
-    if (dateEl) {
-        dateEl.textContent = dateText;
+    const locationEl = document.getElementById("details-location");
+    if (location) {
+        locationEl.innerHTML = `<i class="bi bi-geo-alt-fill"></i> ${location}`;
+        locationEl.classList.remove("hidden");
+    } else {
+        locationEl.classList.add("hidden");
     }
 
-    // Description
-    const descriptionEl = document.getElementById(
-        "details-description"
-    );
+    document.getElementById("details-description").textContent = description || "No description.";
 
-    if (descriptionEl) {
-        descriptionEl.textContent =
-            description || "No description.";
-    }
-
-    // Location
-    const locationEl = document.getElementById(
-        "details-location"
-    );
-
-    if (locationEl) {
-        locationEl.textContent =
-            location || "No location.";
-    }
-
-    // Show modal
     detailsModal.classList.remove("hidden");
 }
 
