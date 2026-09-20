@@ -1,0 +1,146 @@
+<!-- landing page for samasik website-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SamaSik Portal</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@5.12.3/dist/event-calendar.min.css">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@5.12.3/dist/event-calendar.min.js"></script>
+</head>
+
+<body>
+    <main class="home-page">
+        <section class="psychalendar-section ">
+            <div class="heading-container">
+                <p class="section-subheading">Important Dates</p>
+                <h2 class="section-heading">Psychalendar</h2>
+            </div>
+
+            <div class="calendar-layout">
+                <aside class="calendar-legend">
+                    <h3>Legend</h3>
+                    <ul>
+                        <li><span class="legend-dot" style="background:#7f1d1d;"></span> University Calendar</li>
+                        <li><span class="legend-dot" style="background:#ec4899;"></span> Psychology / SamaSik Event</li>
+                        <li><span class="legend-dot" style="background:#dc2626;"></span> Redbolts Event</li>
+                        <li><span class="legend-dot" style="background:#7c3aed;"></span> Birthday</li>
+                        <li><span class="legend-dot" style="background:#16a34a;"></span> Posting</li>
+                        <li><span class="legend-dot" style="background:#2563eb;"></span> Meeting</li>
+                        <li><span class="legend-dot" style="background:#ea580c;"></span> Holiday / Commemoration </li>
+                    </ul>
+                </aside>
+
+                <div id="calendar"></div>
+            </div>
+
+            <!-- DETAILS MODAL — now its own top-level block -->
+            <div id="details-modal" class="modal-overlay hidden">
+                <div class="modal details-modal">
+                    <button type="button" id="details-close-btn" class="modal-close" aria-label="Close">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+
+                    <span id="details-category-badge" class="category-badge"></span>
+                    <h3 id="details-title" class="details-title"></h3>
+                    <p id="details-date" class="details-date"></p>
+                    <p id="details-description" class="details-description"></p>
+
+                    <div class="modal-actions">
+                        <button type="button" id="details-delete-btn" class="btn-danger">Delete</button>
+                        <button type="button" id="details-edit-btn" class="btn-secondary">Edit</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADD/EDIT TASK MODAL — now its own top-level block, details-modal removed from inside it -->
+            <div id="task-modal" class="modal-overlay hidden">
+                <div class="modal">
+                    <button type="button" id="close-modal-btn" class="modal-close" aria-label="Close">
+                        <i class="bi bi-x"></i>
+                    </button>
+
+                    <h3 id="modal-title">Add Event</h3>
+                    <form id="task-form">
+                        <input type="hidden" id="task-id" />
+
+                        <label>
+                            <span class="label-text">Title <span class="required">*</span></span>
+                            <input type="text" id="task-title" required />
+                        </label>
+
+                        <label><span class="label-text">Category <span class="required">*</span></span>
+                            <select id="task-category" required>
+                                <option value="" disabled selected>Select a category</option>
+                                <option value="University Calendar">University Calendar</option>
+                                <option value="Psychology / SamaSik Event">Psychology / SamaSik Event</option>
+                                <option value="Redbolt Event">Redbolts Event</option>
+                                <option value="Birthday">Birthday</option>
+                                <option value="Posting">Posting</option>
+                                <option value="Meeting">Meeting</option>
+                                <option value="Holiday / Commemoration">Holiday / Commemoration</option>
+                            </select>
+                        </label>
+
+                        <div class="date-row">
+                            <label>
+                                <span class="label-text">Date <span class="required">*</span></span>
+                                <input type="date" id="task-start" required />
+                            </label>
+
+                            <label>
+                                <span class="label-text">Start Time <span class="optional">(optional)</span></span>
+                                <input type="time" id="task-start-time" />
+                            </label>
+                        </div>
+
+                        <div class="date-row">
+                            <label>
+                                <span class="label-text">End Date <span class="optional">(optional)</span></span>
+                                <input type="date" id="task-end" />
+                            </label>
+
+                            <label>
+                                <span class="label-text">End Time <span class="optional">(optional)</span></span>
+                                <input type="time" id="task-end-time" />
+                            </label>
+                        </div>
+
+                        <label><span class="label-text">Location <span class="optional">(optional)</span></span>
+                            <input type="text" id="task-location" />
+                        </label>
+
+                        <label><span class="label-text">Description <span class="optional">(optional)</span></span>
+                            <textarea id="task-description" rows="2"></textarea>
+                        </label>
+
+                        <p id="form-feedback" class="form-feedback hidden"></p>
+
+                        <div class="modal-actions">
+                            <button type="button" id="delete-task-btn" class="btn-danger hidden">Delete</button>
+                            <button type="button" id="cancel-btn" class="btn-secondary">Cancel</button>
+                            <button type="submit" class="btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/password.js"></script>
+    <script src="/js/calendar.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/footer.js"></script>
+</body>
+
+</html>

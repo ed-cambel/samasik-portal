@@ -1,364 +1,135 @@
-.page {
-    max-width: 980px;
-    margin: 0 auto;
+/* ==========================================================================
+   Calendar Layout
+   ========================================================================== */
+
+.calendar-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    padding-top: var(--section-pad-y);
 }
 
-.page>h1 {
-    font-size: 20px;
-    margin: 0 0 4px;
-    color: var(--navy);
-}
-
-.page>p.sub {
-    margin: 0 0 24px;
-    color: var(--muted);
-    font-size: 14px;
-}
-
-/* ---------- Calendar shell ---------- */
-.calendar-app {
-    background: var(--white);
+#calendar {
+    flex: 1;
+    min-width: 0;
+    background: var(--card);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
+    border-radius: var(--radius-card);
+    padding: 20px;
+    transition: box-shadow 0.2s ease;
 }
 
-.cal-header {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 18px;
-    border-bottom: 1px solid var(--border);
+.calendar-legend {
+    flex: 0 0 180px;
+    background: var(--card);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border);
+    padding: 20px;
 }
 
-.cal-nav {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.calendar-legend h3 {
+    margin: 0 0 12px 0;
+    font-size: 0.95rem;
 }
 
-.cal-nav h2 {
+.calendar-legend ul {
+    list-style: none;
     margin: 0;
-    font-size: 17px;
-    min-width: 150px;
-    text-align: center;
-    color: var(--navy);
+    padding: 0;
 }
 
-.nav-btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: #fff;
-    cursor: pointer;
-    font-size: 15px;
-    line-height: 1;
-    color: var(--navy);
-}
-
-.nav-btn:hover {
-    background: var(--bg);
-}
-
-.today-btn {
-    border: 1px solid var(--border);
-    background: #fff;
-    border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 12.5px;
-    cursor: pointer;
-    color: var(--ink);
-}
-
-.today-btn:hover {
-    background: var(--bg);
-}
-
-.cal-actions {
+.calendar-legend li {
     display: flex;
     align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-}
-
-.legend {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--muted);
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
 }
 
 .legend-dot {
-    width: 9px;
-    height: 9px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    flex: none;
+    flex-shrink: 0;
 }
 
-.btn-primary {
-    background: var(--navy);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 9px 16px;
-    font-size: 13.5px;
-    font-weight: 600;
-    cursor: pointer;
+.hidden {
+    display: none !important;
 }
 
-.btn-primary:hover {
-    background: #001846;
-}
+/* ==========================================================================
+   Modal — shared overlay/shell
+   ========================================================================== */
 
-.btn-secondary {
-    background: #fff;
-    color: var(--ink);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 9px 16px;
-    font-size: 13.5px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.btn-secondary:hover {
-    background: var(--bg);
-}
-
-.btn-danger {
-    background: #fff;
-    color: var(--crimson);
-    border: 1px solid var(--crimson);
-    border-radius: 8px;
-    padding: 9px 16px;
-    font-size: 13.5px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.btn-danger:hover {
-    background: #fdf1f1;
-}
-
-/* ---------- Grid ---------- */
-.cal-weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    border-bottom: 1px solid var(--border);
-    background: #fafafc;
-}
-
-.cal-weekdays span {
-    padding: 8px 6px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-align: center;
-}
-
-.cal-grid {
-    display: flex;
-    flex-direction: column;
-}
-
-.week-row {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    position: relative;
-    border-bottom: 1px solid var(--border);
-}
-
-.week-row:last-child {
-    border-bottom: none;
-}
-
-.day-cell {
-    grid-row: 1 / -1;
-    border-right: 1px solid var(--border);
-    padding: 6px 6px 8px;
-    min-height: 64px;
-    position: relative;
-}
-
-.day-cell:last-child {
-    border-right: none;
-}
-
-.day-cell.other-month {
-    background: #fbfbfd;
-}
-
-.day-cell.other-month .day-num {
-    color: #c7c7d1;
-}
-
-.day-cell.is-today .day-num {
-    background: var(--navy);
-    color: #fff;
-    border-radius: 50%;
-    width: 22px;
-    height: 22px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.day-num {
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--ink);
-}
-
-.event-bar {
-    grid-row: 2;
-    margin: 1px 0;
-    padding: 2px 8px;
-    font-size: 11.5px;
-    font-weight: 600;
-    color: #fff;
-    border-radius: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-    align-self: start;
-    z-index: 2;
-}
-
-.event-bar.seg-start {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-.event-bar.seg-end {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-.event-bar:not(.seg-start) {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    margin-left: -1px;
-}
-
-.event-bar:not(.seg-end) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    margin-right: -1px;
-}
-
-.event-bar:hover {
-    filter: brightness(0.92);
-}
-
-.event-bar .cont-arrow {
-    opacity: .8;
-}
-
-/* ---------- Tooltip ---------- */
-.event-tooltip {
-    position: fixed;
-    max-width: 240px;
-    background: var(--ink);
-    color: #fff;
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    line-height: 1.4;
-    pointer-events: none;
-    z-index: 500;
-    box-shadow: var(--shadow);
-}
-
-.event-tooltip.hidden {
-    display: none;
-}
-
-.event-tooltip .tt-title {
-    font-weight: 700;
-    margin-bottom: 2px;
-}
-
-.event-tooltip .tt-meta {
-    opacity: .75;
-    font-size: 11px;
-    margin-bottom: 4px;
-}
-
-/* ---------- Modals ---------- */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(15, 15, 25, 0.45);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
     z-index: 1000;
-}
-
-.modal-overlay.hidden {
-    display: none;
+    padding: 20px;
 }
 
 .modal {
     background: #fff;
     border-radius: 14px;
     width: 100%;
-    max-width: 420px;
-    padding: 24px;
+    max-width: 340px;
+    padding: 20px;
     box-shadow: var(--shadow);
     position: relative;
     max-height: 88vh;
     overflow-y: auto;
+    box-sizing: border-box;
 }
 
-.modal.modal-sm {
-    max-width: 320px;
+.modal h3 {
+    margin: 0 0 14px;
+    font-size: 16px;
+    color: var(--navy);
+    padding-right: 20px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
 }
 
 .modal-close {
     position: absolute;
     top: 14px;
     right: 14px;
+    background: transparent;
     border: none;
-    background: none;
-    font-size: 20px;
-    line-height: 1;
     cursor: pointer;
+    font-size: 1.1rem;
     color: var(--muted);
+    padding: 4px;
+    line-height: 1;
+    border-radius: 6px;
+    transition: background-color 0.12s ease, color 0.12s ease;
 }
 
 .modal-close:hover {
+    background: var(--gray-background, #f3f4f6);
     color: var(--ink);
 }
 
-.modal h3 {
-    margin: 0 0 16px;
-    font-size: 17px;
-    color: var(--navy);
-    padding-right: 20px;
+.modal-close i {
+    font-size: 1.5rem;
 }
+
+/* ==========================================================================
+   Task Form (Add/Edit modal)
+   ========================================================================== */
 
 .modal form {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
 }
 
-.modal label {
+.modal form label {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -367,9 +138,11 @@
     color: var(--ink);
 }
 
-.modal input,
-.modal select,
-.modal textarea {
+.modal form input,
+.modal form select,
+.modal form textarea {
+    width: 100%;
+    box-sizing: border-box;
     font-family: inherit;
     font-size: 14px;
     padding: 9px 10px;
@@ -386,91 +159,497 @@
     outline-offset: 1px;
 }
 
-.date-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+.label-text {
+    display: block;
+    margin-bottom: 4px;
 }
 
-.modal-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-top: 4px;
+.required {
+    color: #dc2626;
+    font-size: 0.75rem;
 }
 
-.form-error {
-    color: var(--crimson);
-    font-size: 12.5px;
-    margin: 0;
-    min-height: 16px;
-}
-
-.field-hint {
+.optional {
     font-weight: 400;
     color: var(--muted);
     font-size: 11.5px;
     display: inline;
 }
 
-.cat-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+.date-row {
+    display: flex;
+    gap: 10px;
+}
+
+.date-row label {
+    flex: 1;
+    min-width: 0;
+}
+
+.form-feedback {
+    font-size: 0.82rem;
+    padding: 6px 8px;
+    border-radius: 6px;
+    margin: 8px 0;
+}
+
+.form-feedback.success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.form-feedback.error {
+    color: var(--crimson);
+    font-size: 12.5px;
+    margin: 0;
+    min-height: 16px;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+    min-height: 40px;
+    padding: 0 20px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background-color 0.12s ease, border-color 0.12s ease;
+}
+
+.btn-primary {
+    background: var(--navy);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: var(--magenta, #3d1643);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--gray-background, #f3f4f6);
+    border-color: var(--muted);
+}
+
+.btn-danger {
+    background: transparent;
+    color: var(--crimson);
+    border-color: var(--crimson);
+    margin-right: auto;
+}
+
+.btn-danger:hover {
+    background: var(--crimson);
+    color: #ffffff;
+}
+
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.btn-danger:focus-visible {
+    outline: 2px solid var(--navy);
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Details Modal
+   ========================================================================== */
+
+.details-modal {
+    max-width: 380px;
+    padding: 28px;
+}
+
+.category-badge {
+    display: inline-block;
+    background: var(--ea580c, #ea580c);
+    color: #fff;
     font-size: 11px;
     font-weight: 700;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
-    letter-spacing: .03em;
-    padding: 4px 10px;
+    padding: 5px 14px;
     border-radius: 999px;
-    color: #fff;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
 }
 
-.view-dates {
-    font-size: 13px;
+.details-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--navy);
+    margin: 0 0 10px 0;
+}
+
+.details-date {
+    font-size: 0.85rem;
     color: var(--muted);
-    margin: 0 0 10px;
+    margin: 0 0 14px 0;
 }
 
-#viewDesc {
-    font-size: 14px;
+.details-description {
+    font-size: 0.9rem;
+    color: var(--ink);
+    margin: 0 0 20px 0;
     line-height: 1.5;
-    margin: 0 0 4px;
-    white-space: pre-wrap;
 }
 
-#pwForm input {
-    text-align: center;
-    letter-spacing: 2px;
+/* ==========================================================================
+   Tooltip
+   ========================================================================== */
+
+.custom-tooltip {
+    display: none;
+    position: fixed;
+    background: #1b1f27;
+    color: #fff;
+    padding: 12px 14px;
+    border-radius: 10px;
+    width: max-content;
+    max-width: 240px;
+    white-space: normal;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
-.pw-note {
+.tooltip-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.tooltip-meta {
     font-size: 11.5px;
-    color: var(--muted);
-    margin: -6px 0 0;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 8px;
 }
 
-@media (max-width:640px) {
-    .cal-header {
-        flex-direction: column;
-        align-items: stretch;
+.tooltip-location,
+.tooltip-desc {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.4;
+}
+
+.tooltip-location {
+    margin-bottom: 2px;
+}
+
+/* ==========================================================================
+   EventCalendar (vkurko/calendar) — theme variables
+   ========================================================================== */
+
+.ec {
+    --ec-bg-color: #ffffff;
+    --ec-text-color: #1b1b1f;
+    --ec-border-color: var(--border);
+    --ec-accent-color: #002060;
+    --ec-button-bg-color: #002060;
+    --ec-button-border-color: #002060;
+    --ec-button-text-color: #ffffff;
+}
+
+.ec-title {
+    font-size: 1rem;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ec-button {
+    background: transparent !important;
+    border: 1px solid var(--border) !important;
+    color: var(--ink) !important;
+    border-radius: 8px !important;
+    padding: 0 14px !important;
+    min-height: 36px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    transition: background-color 0.12s ease, border-color 0.12s ease !important;
+}
+
+.ec-button:hover {
+    background: var(--gray-background, #f3f4f6) !important;
+    border-color: var(--muted, #6b6b76) !important;
+}
+
+.ec-button:focus-visible {
+    outline: 2px solid var(--navy) !important;
+    outline-offset: 2px;
+}
+
+.ec-button:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+}
+
+.ec-active {
+    background: var(--crimson) !important;
+    border-color: var(--crimson) !important;
+    color: #ffffff !important;
+}
+
+.ec-active:hover {
+    background: var(--magenta, #3d1643) !important;
+    border-color: var(--magenta, #3d1643) !important;
+}
+
+.ec-addTaskBtn {
+    background: var(--navy) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 9px 16px !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    transition: background-color 0.12s ease !important;
+}
+
+.ec-addTaskBtn:hover {
+    background: var(--magenta, #3d1643) !important;
+}
+
+.ec-addTaskBtn:focus-visible {
+    outline: 2px solid var(--navy) !important;
+    outline-offset: 2px;
+}
+
+/* ---------- Grid ---------- */
+
+.ec-header {
+    background: #fafafc;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: .04em !important;
+    text-transform: uppercase !important;
+    color: var(--muted) !important;
+    text-align: center !important;
+}
+
+.ec-day-head {
+    padding: 8px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+}
+
+.ec-day {
+    border-color: var(--border) !important;
+    padding: 6px 6px 8px;
+    min-height: 64px;
+    position: relative;
+}
+
+.ec-day.ec-other-month {
+    background: #fbfbfd;
+}
+
+.ec-day.ec-other-month .ec-day-head,
+.ec-day.ec-other-month .ec-day-num {
+    color: #c7c7d1;
+}
+
+.ec-day.ec-today {
+    background: rgba(0, 32, 96, 0.1) !important;
+}
+
+/* ---------- Events ---------- */
+
+.ec-event {
+    margin: 1px 0;
+    padding: 2px 8px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none !important;
+}
+
+.ec-event:hover {
+    filter: brightness(0.92);
+}
+
+.ec-event-title {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: inherit;
+}
+
+.event-title-clip {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+/* ---------- List view ---------- */
+
+.ec-list {
+    background: var(--card, #fff);
+}
+
+.ec-day-side {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.ec-no-events {
+    color: var(--muted);
+    padding: 40px 0;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.ec-list .ec-event {
+    margin: 4px 0;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.ec-list .ec-event-title {
+    font-size: 12.5px;
+}
+
+/* ==========================================================================
+   Responsive — Tablet (≤900px)
+   ========================================================================== */
+
+@media (max-width: 900px) {
+    .calendar-layout {
+        gap: 16px;
     }
 
-    .cal-actions {
-        justify-content: space-between;
+    .calendar-legend {
+        flex: 0 0 150px;
+        padding: 16px;
+    }
+
+    #calendar {
+        padding: 14px;
+    }
+
+    .ec-day {
+        min-height: 52px;
+    }
+}
+
+.event-location {
+    font-size: 11px;
+    opacity: 0.85;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+}
+
+/* ==========================================================================
+   Responsive — Phone (≤700px)
+   ========================================================================== */
+
+@media (max-width: 700px) {
+    .calendar-layout {
+        flex-direction: column;
+    }
+
+    .calendar-legend {
+        flex: none;
+        width: 100%;
+        order: 2;
+        /* legend below calendar on mobile */
+    }
+
+    #calendar {
+        order: 1;
+        padding: 10px;
+    }
+
+    .ec-title {
+        font-size: 0.85rem;
+        padding: 0.35rem;
+    }
+
+    .ec-button {
+        padding: 0 10px !important;
+        min-height: 32px !important;
+        font-size: 0.78rem !important;
+    }
+
+    .ec-day {
+        min-height: 44px;
+        padding: 4px 4px 6px;
+    }
+
+    .ec-day-head {
+        font-size: 9.5px;
+        padding: 6px 2px;
+    }
+
+    .ec-event {
+        font-size: 10px;
+        padding: 1px 5px;
+    }
+
+    .ec-event-title {
+        font-size: 10px;
+    }
+
+    /* Modals: fill more of the screen on small devices */
+    .modal-overlay {
+        padding: 12px;
+    }
+
+    .modal {
+        max-width: 100%;
+        padding: 16px;
+    }
+
+    .details-modal {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .modal-actions {
+        flex-wrap: wrap;
+    }
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-danger {
+        flex: 1;
+        min-width: 100px;
     }
 
     .date-row {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+        gap: 12px;
     }
 
-    .day-cell {
-        min-height: 52px;
-        padding: 4px;
-    }
-
-    .event-bar {
-        font-size: 10.5px;
+    /* Tooltip: narrower and avoids overflowing small viewports */
+    .custom-tooltip {
+        max-width: calc(100vw - 32px);
     }
 }

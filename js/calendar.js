@@ -1,536 +1,1153 @@
-document.body.insertAdjacentHTML('beforeend', `
+// calendar.js — using EventCalendar (github.com/vkurko/calendar)
+// Global object exposed by the CDN bundle is `EventCalendar`
 
-    <body>
-        <div class="page">
-            <div class="calendar-app">
-                <div class="cal-header">
-                    <div class="cal-nav">
-                        <button class="nav-btn" id="prevMonth" aria-label="Previous month">‹</button>
-                        <h2 id="monthLabel">Month Year</h2>
-                        <button class="nav-btn" id="nextMonth" aria-label="Next month">›</button>
-                        <button class="today-btn" id="todayBtn">Today</button>
-                    </div>
-                    <div class="cal-actions">
-                        <div class="legend" id="legend"></div>
-                        <button class="btn-primary" id="addEventBtn">+ Add event</button>
-                    </div>
-                </div>
+let calendar;
 
-                <div class="cal-weekdays">
-                    <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
-                </div>
-                <div class="cal-grid" id="calGrid"></div>
-            </div>
-        </div>
+// ---------------------------------------------------------
+// CATEGORY COLORS
+// ---------------------------------------------------------
 
-        <!-- Add / Edit event modal -->
-        <div class="modal-overlay hidden" id="eventModal">
-            <div class="modal">
-                <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
-                <h3 id="modalTitle">Add event</h3>
-                <form id="eventForm">
-                    <input type="hidden" id="evtId">
-                    <label>Title
-                        <input type="text" id="evtTitle" required maxlength="80" placeholder="e.g. General Assembly">
-                    </label>
-                    <label>Category
-                        <select id="evtCategory"></select>
-                    </label>
-                    <div class="date-row">
-                        <label>Start date
-                            <input type="date" id="evtStart" required>
-                        </label>
-                        <label>End date <span class="field-hint">(optional)</span>
-                            <input type="date" id="evtEnd">
-                        </label>
-                    </div>
-                    <label>Description <span class="field-hint">(optional)</span>
-                        <textarea id="evtDesc" rows="3" maxlength="300" placeholder="Details, venue, notes..."></textarea>
-                    </label>
-                    <p class="form-error" id="formError"></p>
-                    <div class="modal-actions">
-                        <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
-                        <button type="submit" class="btn-primary" id="saveBtn">Save event</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- View event modal -->
-        <div class="modal-overlay hidden" id="viewModal">
-            <div class="modal">
-                <button class="modal-close" id="viewModalClose" aria-label="Close">&times;</button>
-                <span class="cat-pill" id="viewCatPill"></span>
-                <h3 id="viewTitle"></h3>
-                <p class="view-dates" id="viewDates"></p>
-                <p id="viewDesc"></p>
-                <div class="modal-actions">
-                    <button class="btn-danger" id="deleteBtn">Delete</button>
-                    <button class="btn-secondary" id="editBtn">Edit</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Password gate modal (used before add / edit / delete) -->
-        <div class="modal-overlay hidden" id="pwModal">
-            <div class="modal modal-sm">
-                <button class="modal-close" id="pwModalClose" aria-label="Close">&times;</button>
-                <h3 id="pwTitle">Enter editor password</h3>
-                <form id="pwForm">
-                    <input type="password" id="pwInput" required autocomplete="off" placeholder="••••••••">
-                    <p class="form-error" id="pwError"></p>
-                    <p class="pw-note">Restricted access: only Execom are allowed these functions.</p>
-                    <div class="modal-actions">
-                        <button type="button" class="btn-secondary" id="pwCancel">Cancel</button>
-                        <button type="submit" class="btn-primary">Confirm</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="event-tooltip hidden" id="tooltip"></div>
-        </body>
-    `);
-
-
-const CONFIG = {
-    demoPasswords: {
-        add: "add2026",
-        edit: "edit2026",
-        delete: "delete2026",
-    },
-
-    apiUrl: "https://script.google.com/macros/s/AKfycbx-53U5neOwoZqZeKxIYBYDvfAvOsI2fiqD9TV-uKZpE7vc_tTtAOUICxFE4GzIeIP3nA/exec",
-
-    categories: [
-        { id: "upvcalendar", label: "UPV Calendar", color: "#7B1113" },
-        { id: "samasik", label: "Psychology/SamaSik Event", color: "#fabed4" },
-        { id: "redbolt", label: "Redbold Event", color: "#e6194B" },
-        { id: "birthday", label: "Birthday", color: "#dcbeff" },
-        { id: "posting", label: "Posting", color: "#3cb44b" },
-        { id: "meeting", label: "Meeting", color: "#4363d8" },
-        { id: "holiday", label: "Holiday/Commemoration", color: "#f58231" },
-    ],
+const categoryColors = {
+    "University Calendar": "#7f1d1d",
+    "Psychology / SamaSik Event": "#ec4899",
+    "Redbolt Event": "#dc2626",
+    "Birthday": "#7c3aed",
+    "Posting": "#16a34a",
+    "Meeting": "#2563eb",
+    "Holiday / Commemoration": "#ea580c"
 };
 
-function categoryOf(id) {
-    return CONFIG.categories.find(c => c.id === id) || CONFIG.categories[0];
-}
 
-const STORAGE_KEY = "samasik_calendar_events_v1";
-
-function seedEvents() {
-    const y = new Date().getFullYear(), m = new Date().getMonth();
-    const d = (offset) => {
-        const dt = new Date(y, m, 1 + offset);
-        return dt.toISOString().slice(0, 10);
-    };
-    return [
-        { id: cryptoId(), title: "Execom Meeting", category: "meeting", start: d(2), end: d(2), description: "Monthly execom sync, function room B." },
-        { id: cryptoId(), title: "GPOA Submission Deadline", category: "deadline", start: d(9), end: d(9), description: "Submit GPOA to the OSA." },
-        { id: cryptoId(), title: "General Assembly", category: "event", start: d(13), end: d(15), description: "3-day GA, main covered court." },
-        { id: cryptoId(), title: "Foundation Week", category: "holiday", start: d(20), end: d(24), description: "No classes / org activities on campus." },
-        { id: cryptoId(), title: "Elections Announcement", category: "announcement", start: d(6), end: d(6), description: "Comelec posts the final candidate list." },
-    ];
-}
-
-function cryptoId() {
-    return "e_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-}
-
-async function loadEvents() {
-    if (CONFIG.apiUrl) {
-
-        const res = await fetch(CONFIG.apiUrl);
-        return await res.json();
+// ---------------------------------------------------------
+// FETCH EVENTS
+// ---------------------------------------------------------
+function parseLocalDate(value) {
+    if (!value) {
+        return null;
     }
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-        const seeded = seedEvents();
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(seeded));
-        return seeded;
+
+    const dateString = String(value).slice(0, 10);
+
+    const [year, month, day] =
+        dateString.split("-").map(Number);
+
+    return new Date(
+        year,
+        month - 1,
+        day
+    );
+}
+
+
+function parseLocalDateTime(value) {
+    if (!value) {
+        return null;
     }
-    return JSON.parse(raw);
+
+    const dateString = String(value);
+
+    const [datePart, timePart = "00:00:00"] =
+        dateString.split("T");
+
+    const [year, month, day] =
+        datePart.split("-").map(Number);
+
+    const [hours, minutes, seconds = 0] =
+        timePart.split(":").map(Number);
+
+    return new Date(
+        year,
+        month - 1,
+        day,
+        hours,
+        minutes,
+        Number(seconds)
+    );
 }
 
-async function persistAll(events) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-}
+async function fetchEvents() {
+    const { data, error } = await supabaseClient
+        .from("events")
+        .select("*")
+        .order("start_time", { ascending: true });
 
-async function createEvent(evt, password) {
-    if (CONFIG.apiUrl) {
-
-        const res = await fetch(CONFIG.apiUrl, {
-            method: "POST",
-            body: JSON.stringify({ action: "create", password, ...evt }),
-        });
-        return await res.json(); // { ok: true, id } or { ok:false, error }
+    if (error) {
+        console.error("Error loading events:", error.message);
+        return [];
     }
-    const events = await loadEvents();
-    const record = { ...evt, id: cryptoId() };
-    events.push(record);
-    await persistAll(events);
-    return { ok: true, id: record.id };
-}
 
-async function updateEvent(id, evt, password) {
-    if (CONFIG.apiUrl) {
-        const res = await fetch(CONFIG.apiUrl, {
-            method: "POST",
-            body: JSON.stringify({ action: "update", id, password, ...evt }),
-        });
-        return await res.json();
-    }
-    const events = await loadEvents();
-    const idx = events.findIndex(e => e.id === id);
-    if (idx === -1) return { ok: false, error: "Event not found" };
-    events[idx] = { ...events[idx], ...evt };
-    await persistAll(events);
-    return { ok: true };
-}
+    return data.map(row => {
+        let start;
+        let end;
 
-async function deleteEvent(id, password) {
-    if (CONFIG.apiUrl) {
-        const res = await fetch(CONFIG.apiUrl, {
-            method: "POST",
-            body: JSON.stringify({ action: "delete", id, password }),
-        });
-        return await res.json();
-    }
-    const events = await loadEvents();
-    const next = events.filter(e => e.id !== id);
-    await persistAll(next);
-    return { ok: true };
-}
+        if (row.all_day) {
+            // IMPORTANT:
+            // Don't let JavaScript interpret YYYY-MM-DD as UTC.
+            start = parseLocalDate(row.start_time);
 
-async function checkPassword(pw, type) {
-    if (CONFIG.apiUrl) {
-        const res = await fetch(CONFIG.apiUrl, {
-            method: "POST",
-            body: JSON.stringify({ action: "verify", type, password: pw }),
-        });
-        const data = await res.json();
-        return data.ok === true;
-    }
-    return pw === CONFIG.demoPasswords[type];
-}
+            end = row.end_time
+                ? parseLocalDate(row.end_time)
+                : start;
+        } else {
+            start = parseLocalDateTime(row.start_time);
 
-const state = {
-    cursor: startOfMonth(new Date()),  // first day of the visible month
-    events: [],                        // [{id,title,category,start,end,description}]
-    pendingAction: null,               // fn to run once a password is confirmed
-    pendingType: null,                 // "add" | "edit" | "delete" — which password to check
-    editingId: null,                   // id currently open in Add/Edit modal
-    actionPassword: null,              // password just confirmed, carried into the create/update call
-};
-
-function startOfMonth(d) { return new Date(d.getFullYear(), d.getMonth(), 1); }
-function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
-function addMonths(d, n) { return new Date(d.getFullYear(), d.getMonth() + n, 1); }
-function toKey(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
-function parseDateKey(s) { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); }
-function isSameDay(a, b) { return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); }
-function fmtDate(d) { return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
-
-function getMonthMatrix(year, month) {
-    const first = new Date(year, month, 1);
-    const last = new Date(year, month + 1, 0);
-    const start = addDays(first, -first.getDay());
-    const end = addDays(last, 6 - last.getDay());
-    const weeks = [];
-    let cur = start;
-    while (cur <= end) {
-        const week = [];
-        for (let i = 0; i < 7; i++) { week.push(cur); cur = addDays(cur, 1); }
-        weeks.push(week);
-    }
-    return weeks;
-}
-
-function assignTracks(events, weekStart, weekEnd) {
-    const segs = events
-        .filter(e => e.endD >= weekStart && e.startD <= weekEnd)
-        .map(e => {
-            const clipStart = e.startD < weekStart ? weekStart : e.startD;
-            const clipEnd = e.endD > weekEnd ? weekEnd : e.endD;
-            return {
-                event: e,
-                startCol: Math.round((clipStart - weekStart) / 86400000),
-                endCol: Math.round((clipEnd - weekStart) / 86400000),
-                continuesBefore: e.startD < weekStart,
-                continuesAfter: e.endD > weekEnd,
-            };
-        })
-        .sort((a, b) => a.startCol - b.startCol || (b.endCol - b.startCol) - (a.endCol - a.startCol));
-
-    const tracks = [];
-    segs.forEach(seg => {
-        let placed = false;
-        for (let t = 0; t < tracks.length; t++) {
-            const overlaps = tracks[t].some(s => seg.startCol <= s.endCol && seg.endCol >= s.startCol);
-            if (!overlaps) { tracks[t].push(seg); seg.track = t; placed = true; break; }
+            end = row.end_time
+                ? parseLocalDateTime(row.end_time)
+                : start;
         }
-        if (!placed) { tracks.push([seg]); seg.track = tracks.length - 1; }
-    });
-    return { segs, trackCount: Math.max(tracks.length, 1) };
-}
 
-function renderLegend() {
-    const legend = document.getElementById("legend");
-    legend.innerHTML = CONFIG.categories.map(c =>
-        `<span class="legend-item"><span class="legend-dot" style="background:${c.color}"></span>${c.label}</span>`
-    ).join("");
-}
+        return {
+            id: row.id,
+            title: row.title,
+            start,
+            end,
+            allDay: row.all_day,
 
-function renderMonthLabel() {
-    document.getElementById("monthLabel").textContent =
-        state.cursor.toLocaleDateString(undefined, { month: "long", year: "numeric" });
-}
+            backgroundColor: row.color || undefined,
 
-function renderCalendar() {
-    renderMonthLabel();
-    const grid = document.getElementById("calGrid");
-    grid.innerHTML = "";
-
-    const year = state.cursor.getFullYear();
-    const month = state.cursor.getMonth();
-    const weeks = getMonthMatrix(year, month);
-    const today = new Date();
-
-
-    const events = state.events.map(e => ({
-        ...e,
-        startD: parseDateKey(e.start),
-        endD: parseDateKey(e.end || e.start),
-    }));
-
-    weeks.forEach(week => {
-        const weekStart = week[0], weekEnd = week[6];
-        const { segs, trackCount } = assignTracks(events, weekStart, weekEnd);
-
-        const weekRow = document.createElement("div");
-        weekRow.className = "week-row";
-        weekRow.style.gridTemplateRows = `26px repeat(${trackCount}, 20px) 6px`;
-
-
-        week.forEach((day, colIdx) => {
-            const cell = document.createElement("div");
-            cell.className = "day-cell";
-            if (day.getMonth() !== month) cell.classList.add("other-month");
-            if (isSameDay(day, today)) cell.classList.add("is-today");
-            cell.style.gridColumn = colIdx + 1;
-            cell.innerHTML = `<span class="day-num">${day.getDate()}</span>`;
-            weekRow.appendChild(cell);
-        });
-
-
-        segs.forEach(seg => {
-            const cat = categoryOf(seg.event.category);
-            const bar = document.createElement("div");
-            bar.className = "event-bar";
-            if (!seg.continuesBefore) bar.classList.add("seg-start");
-            if (!seg.continuesAfter) bar.classList.add("seg-end");
-            bar.style.gridColumn = `${seg.startCol + 1} / ${seg.endCol + 2}`;
-            bar.style.gridRow = seg.track + 2; // +1 for date row, +1 for 1-index
-            bar.style.background = cat.color;
-            bar.dataset.id = seg.event.id;
-            bar.textContent = (seg.continuesBefore ? "◂ " : "") + seg.event.title + (seg.continuesAfter ? " ▸" : "");
-
-            bar.addEventListener("click", () => openViewModal(seg.event.id));
-            bar.addEventListener("mouseenter", (ev) => showTooltip(ev, seg.event));
-            bar.addEventListener("mousemove", positionTooltip);
-            bar.addEventListener("mouseleave", hideTooltip);
-
-            weekRow.appendChild(bar);
-        });
-
-        grid.appendChild(weekRow);
+            extendedProps: {
+                description: row.description,
+                location: row.location,
+                category: row.category
+            }
+        };
     });
 }
 
-async function refresh() {
-    state.events = await loadEvents();
-    renderCalendar();
-}
 
-const tooltipEl = document.getElementById("tooltip");
+// ---------------------------------------------------------
+// CALENDAR INITIALIZATION
+// ---------------------------------------------------------
 
-function showTooltip(ev, evt) {
-    const cat = categoryOf(evt.category);
-    const dateLabel = evt.end && evt.end !== evt.start
-        ? `${fmtDate(parseDateKey(evt.start))} – ${fmtDate(parseDateKey(evt.end))}`
-        : fmtDate(parseDateKey(evt.start));
-    tooltipEl.innerHTML = `
-    <div class="tt-title">${escapeHtml(evt.title)}</div>
-    <div class="tt-meta">${cat.label} · ${dateLabel}</div>
-    ${evt.description ? `<div>${escapeHtml(evt.description)}</div>` : ""}
-  `;
-    tooltipEl.classList.remove("hidden");
-    positionTooltip(ev);
-}
-function positionTooltip(ev) {
-    const pad = 14;
-    let x = ev.clientX + pad, y = ev.clientY + pad;
-    const rect = tooltipEl.getBoundingClientRect();
-    if (x + rect.width > window.innerWidth - 8) x = ev.clientX - rect.width - pad;
-    if (y + rect.height > window.innerHeight - 8) y = ev.clientY - rect.height - pad;
-    tooltipEl.style.left = x + "px";
-    tooltipEl.style.top = y + "px";
-}
-function hideTooltip() { tooltipEl.classList.add("hidden"); }
-function escapeHtml(s) {
-    return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-}
+document.addEventListener("DOMContentLoaded", async () => {
+    const calendarEl = document.getElementById("calendar");
 
-const eventModal = document.getElementById("eventModal");
-const viewModal = document.getElementById("viewModal");
-const pwModal = document.getElementById("pwModal");
-
-function openModal(el) { el.classList.remove("hidden"); }
-function closeModal(el) { el.classList.add("hidden"); }
-function closeAllModals() { [eventModal, viewModal, pwModal].forEach(closeModal); hideTooltip(); }
-
-document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeAllModals();
-});
-[eventModal, viewModal, pwModal].forEach(overlay => {
-    overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(overlay); });
-});
-
-function requirePassword(promptText, type, onConfirmed) {
-    document.getElementById("pwTitle").textContent = promptText;
-    document.getElementById("pwInput").value = "";
-    document.getElementById("pwError").textContent = "";
-    state.pendingAction = onConfirmed;
-    state.pendingType = type;
-    openModal(pwModal);
-    setTimeout(() => document.getElementById("pwInput").focus(), 30);
-}
-document.getElementById("pwForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const pw = document.getElementById("pwInput").value;
-    const ok = await checkPassword(pw, state.pendingType);
-    if (!ok) {
-        document.getElementById("pwError").textContent = "Incorrect password. Try again.";
+    if (!calendarEl) {
+        console.error("Calendar element #calendar was not found.");
         return;
     }
-    const action = state.pendingAction;
-    state.pendingAction = null;
-    state.pendingType = null;
-    closeModal(pwModal);
-    if (action) action(pw);
-});
-document.getElementById("pwCancel").addEventListener("click", () => closeModal(pwModal));
-document.getElementById("pwModalClose").addEventListener("click", () => closeModal(pwModal));
 
-function populateCategorySelect() {
-    const sel = document.getElementById("evtCategory");
-    sel.innerHTML = CONFIG.categories.map(c => `<option value="${c.id}">${c.label}</option>`).join("");
-}
+    const events = await fetchEvents();
 
-function openAddModal() {
-    state.editingId = null;
-    document.getElementById("modalTitle").textContent = "Add event";
-    document.getElementById("eventForm").reset();
-    document.getElementById("evtId").value = "";
-    document.getElementById("evtStart").value = toKey(new Date());
-    document.getElementById("formError").textContent = "";
-    openModal(eventModal);
-}
+    calendar = EventCalendar.create(calendarEl, {
+        view: "dayGridMonth",
 
-function openEditModal(evt) {
-    state.editingId = evt.id;
-    document.getElementById("modalTitle").textContent = "Edit event";
-    document.getElementById("evtId").value = evt.id;
-    document.getElementById("evtTitle").value = evt.title;
-    document.getElementById("evtCategory").value = evt.category;
-    document.getElementById("evtStart").value = evt.start;
-    document.getElementById("evtEnd").value = evt.end && evt.end !== evt.start ? evt.end : "";
-    document.getElementById("evtDesc").value = evt.description || "";
-    document.getElementById("formError").textContent = "";
-    openModal(eventModal);
-}
+        buttonText: {
+            today: "Today",
+            dayGridMonth: "Month",
+            listMonth: "List"
+        },
 
-document.getElementById("addEventBtn").addEventListener("click", () => {
-    requirePassword("Enter password to add an event", "add", (pw) => {
-        state.actionPassword = pw;
-        openAddModal();
+        headerToolbar: {
+            start: "prev,title,next today",
+            center: "",
+            end: "dayGridMonth listMonth addTaskBtn"
+        },
+
+        customButtons: {
+            addTaskBtn: {
+                text: "+ Add Event",
+                click: () => {
+                    openModal("add");
+                }
+            }
+        },
+
+        // -------------------------------------------------
+        // EVENT MOUNT
+        // -------------------------------------------------
+
+        eventDidMount: (info) => {
+            const {
+                category,
+                location,
+                description
+            } = info.event.extendedProps;
+
+            const dateStr = info.event.start.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric"
+            });
+
+            // Build time string only for timed events
+            let timeStr = "";
+
+            if (!info.event.allDay) {
+                const startTime = info.event.start.toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "2-digit"
+                });
+
+                if (info.event.end) {
+                    const endTime = info.event.end.toLocaleTimeString("en-US", {
+                        hour: "numeric",
+                        minute: "2-digit"
+                    });
+
+                    timeStr = ` · ${startTime} - ${endTime}`;
+                } else {
+                    timeStr = ` · ${startTime}`;
+                }
+            }
+
+            // Clip long event titles
+            const titleEl = info.el.querySelector(".ec-event-title");
+
+            if (titleEl) {
+                titleEl.classList.add("event-title-clip");
+
+                if (location) {
+                    const locationEl = document.createElement("div");
+
+                    locationEl.className = "event-location";
+
+                    locationEl.textContent = `📍 ${location}`;
+
+                    titleEl.parentElement.appendChild(locationEl);
+                }
+            }
+
+
+            // -------------------------------------------------
+            // TOOLTIP
+            // -------------------------------------------------
+
+            const tooltip = document.createElement("div");
+
+            tooltip.className = "custom-tooltip";
+
+            tooltip.innerHTML = `
+                <div class="tooltip-title">
+                    ${escapeHtml(info.event.title)}
+                </div>
+
+                <div class="tooltip-meta">
+                    ${category ? escapeHtml(category) + " · " : ""}
+                    ${dateStr}${timeStr}
+                </div>
+
+                ${location
+                    ? `<div class="tooltip-location">${escapeHtml(location)}</div>`
+                    : ""
+                }
+
+                ${description
+                    ? `<div class="tooltip-desc">${escapeHtml(description)}</div>`
+                    : ""
+                }
+            `;
+
+            document.body.appendChild(tooltip);
+
+            // Hide tooltip initially
+            tooltip.style.display = "none";
+
+            // Show tooltip
+            info.el.addEventListener("mouseenter", () => {
+                const rect = info.el.getBoundingClientRect();
+
+                tooltip.style.display = "block";
+
+                // Measure tooltip
+                const tooltipRect = tooltip.getBoundingClientRect();
+
+                // Center horizontally
+                let left =
+                    rect.left +
+                    rect.width / 2 -
+                    tooltipRect.width / 2;
+
+                // Keep inside viewport
+                left = Math.max(
+                    8,
+                    Math.min(
+                        left,
+                        window.innerWidth - tooltipRect.width - 8
+                    )
+                );
+
+                // Default: below event
+                let top = rect.bottom + 8;
+
+                // If overflowing bottom, show above
+                if (
+                    top + tooltipRect.height >
+                    window.innerHeight
+                ) {
+                    top =
+                        rect.top -
+                        tooltipRect.height -
+                        8;
+                }
+
+                // Make sure it doesn't go above viewport
+                if (top < 8) {
+                    top = 8;
+                }
+
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+            });
+
+            // Hide tooltip
+            info.el.addEventListener("mouseleave", () => {
+                tooltip.style.display = "none";
+            });
+        },
+
+        // IMPORTANT:
+        // Give EventCalendar the events
+        events: events,
+
+        // Clicking an event
+        eventClick: (info) => {
+            openDetailsModal(info.event);
+        },
+
+        height: "auto"
     });
 });
-document.getElementById("modalClose").addEventListener("click", () => closeModal(eventModal));
-document.getElementById("cancelBtn").addEventListener("click", () => closeModal(eventModal));
 
-document.getElementById("eventForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const title = document.getElementById("evtTitle").value.trim();
-    const category = document.getElementById("evtCategory").value;
-    const start = document.getElementById("evtStart").value;
-    const end = document.getElementById("evtEnd").value;
-    const description = document.getElementById("evtDesc").value.trim();
-    const errEl = document.getElementById("formError");
 
-    if (!title || !start) { errEl.textContent = "Title and start date are required."; return; }
-    if (end && end < start) { errEl.textContent = "End date can't be before the start date."; return; }
+// ---------------------------------------------------------
+// HTML ESCAPE HELPER
+// ---------------------------------------------------------
 
-    const payload = { title, category, start, end: end || start, description };
-    const password = state.actionPassword; // confirmed by the add/edit password gate
-
-    let result;
-    if (state.editingId) {
-        result = await updateEvent(state.editingId, payload, password);
-    } else {
-        result = await createEvent(payload, password);
+function escapeHtml(value) {
+    if (value === null || value === undefined) {
+        return "";
     }
-    if (!result.ok) { errEl.textContent = result.error || "Something went wrong."; return; }
 
-    state.actionPassword = null;
-    closeModal(eventModal);
-    await refresh();
-});
-
-function openViewModal(id) {
-    const evt = state.events.find(e => e.id === id);
-    if (!evt) return;
-    const cat = categoryOf(evt.category);
-    document.getElementById("viewCatPill").textContent = cat.label;
-    document.getElementById("viewCatPill").style.background = cat.color;
-    document.getElementById("viewTitle").textContent = evt.title;
-    document.getElementById("viewDates").textContent = evt.end && evt.end !== evt.start
-        ? `${fmtDate(parseDateKey(evt.start))} – ${fmtDate(parseDateKey(evt.end))}`
-        : fmtDate(parseDateKey(evt.start));
-    document.getElementById("viewDesc").textContent = evt.description || "No description.";
-    document.getElementById("viewModal").dataset.currentId = id;
-    openModal(viewModal);
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
-document.getElementById("viewModalClose").addEventListener("click", () => closeModal(viewModal));
 
-document.getElementById("editBtn").addEventListener("click", () => {
-    const id = document.getElementById("viewModal").dataset.currentId;
-    const evt = state.events.find(e => e.id === id);
-    if (!evt) return;
-    requirePassword("Enter password to edit this event", "edit", (pw) => {
-        state.actionPassword = pw;
-        closeModal(viewModal);
-        openEditModal(evt);
+
+// ---------------------------------------------------------
+// DETAILS MODAL
+// ---------------------------------------------------------
+
+const detailsModal = document.getElementById("details-modal");
+
+let currentDetailsEvent = null;
+
+
+function openDetailsModal(event) {
+    if (!detailsModal) {
+        console.error("#details-modal was not found.");
+        return;
+    }
+
+    currentDetailsEvent = event;
+
+    const {
+        category,
+        description,
+        location
+    } = event.extendedProps || {};
+
+    // Category badge
+    const badge = document.getElementById(
+        "details-category-badge"
+    );
+
+    if (badge) {
+        badge.textContent = category || "Event";
+
+        badge.style.background =
+            categoryColors[category] || "#6b6b76";
+    }
+
+    // Title
+    const titleEl = document.getElementById(
+        "details-title"
+    );
+
+    if (titleEl) {
+        titleEl.textContent = event.title;
+    }
+
+    // Date
+    let dateText = event.start.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
     });
-});
 
-document.getElementById("deleteBtn").addEventListener("click", () => {
-    const id = document.getElementById("viewModal").dataset.currentId;
-    requirePassword("Enter password to delete this event", "delete", async (pw) => {
-        const result = await deleteEvent(id, pw);
-        if (result.ok) {
-            closeModal(viewModal);
-            await refresh();
+    // Time
+    if (!event.allDay) {
+        const startTime = event.start.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit"
+        });
+
+        if (event.end) {
+            const endTime = event.end.toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit"
+            });
+
+            dateText += ` · ${startTime} - ${endTime}`;
+        } else {
+            dateText += ` · ${startTime}`;
+        }
+    }
+
+    const dateEl = document.getElementById(
+        "details-date"
+    );
+
+    if (dateEl) {
+        dateEl.textContent = dateText;
+    }
+
+    // Description
+    const descriptionEl = document.getElementById(
+        "details-description"
+    );
+
+    if (descriptionEl) {
+        descriptionEl.textContent =
+            description || "No description.";
+    }
+
+    // Location
+    const locationEl = document.getElementById(
+        "details-location"
+    );
+
+    if (locationEl) {
+        locationEl.textContent =
+            location || "No location.";
+    }
+
+    // Show modal
+    detailsModal.classList.remove("hidden");
+}
+
+
+function closeDetailsModal() {
+    if (detailsModal) {
+        detailsModal.classList.add("hidden");
+    }
+
+    currentDetailsEvent = null;
+}
+
+
+// Close details modal
+const detailsCloseBtn = document.getElementById(
+    "details-close-btn"
+);
+
+if (detailsCloseBtn) {
+    detailsCloseBtn.addEventListener(
+        "click",
+        closeDetailsModal
+    );
+}
+
+
+// ---------------------------------------------------------
+// EDIT EVENT FROM DETAILS MODAL
+// ---------------------------------------------------------
+
+const detailsEditBtn = document.getElementById(
+    "details-edit-btn"
+);
+
+if (detailsEditBtn) {
+    detailsEditBtn.addEventListener("click", () => {
+        // IMPORTANT:
+        // Save the event BEFORE closeDetailsModal()
+        // because closeDetailsModal() sets it to null.
+
+        const eventToEdit = currentDetailsEvent;
+
+        closeDetailsModal();
+
+        if (eventToEdit) {
+            openModal("edit", eventToEdit);
         }
     });
-});
+}
 
 
-document.getElementById("prevMonth").addEventListener("click", () => { state.cursor = addMonths(state.cursor, -1); renderCalendar(); });
-document.getElementById("nextMonth").addEventListener("click", () => { state.cursor = addMonths(state.cursor, 1); renderCalendar(); });
-document.getElementById("todayBtn").addEventListener("click", () => { state.cursor = startOfMonth(new Date()); renderCalendar(); });
+// ---------------------------------------------------------
+// DELETE EVENT FROM DETAILS MODAL
+// ---------------------------------------------------------
 
-populateCategorySelect();
-renderLegend();
-refresh();
+const detailsDeleteBtn = document.getElementById(
+    "details-delete-btn"
+);
+
+if (detailsDeleteBtn) {
+    detailsDeleteBtn.addEventListener(
+        "click",
+        async () => {
+            if (!currentDetailsEvent) {
+                return;
+            }
+
+            if (!confirm("Delete this event?")) {
+                return;
+            }
+
+            const { error } = await supabaseClient
+                .from("events")
+                .delete()
+                .eq("id", currentDetailsEvent.id);
+
+            if (error) {
+                alert(
+                    "Error deleting: " +
+                    error.message
+                );
+
+                return;
+            }
+
+            const freshEvents =
+                await fetchEvents();
+
+            if (calendar) {
+                calendar.setOption(
+                    "events",
+                    freshEvents
+                );
+            }
+
+            closeDetailsModal();
+        }
+    );
+}
+
+
+// ---------------------------------------------------------
+// TASK MODAL
+// ---------------------------------------------------------
+
+const modal = document.getElementById(
+    "task-modal"
+);
+
+const form = document.getElementById(
+    "task-form"
+);
+
+const modalTitle = document.getElementById(
+    "modal-title"
+);
+
+const deleteBtn = document.getElementById(
+    "delete-task-btn"
+);
+
+
+// ---------------------------------------------------------
+// OPEN ADD / EDIT MODAL
+// ---------------------------------------------------------
+
+function openModal(mode, eventData = null) {
+    if (!modal) {
+        console.error("#task-modal was not found.");
+        return;
+    }
+
+    if (!form) {
+        console.error("#task-form was not found.");
+        return;
+    }
+
+    // Reset form
+    form.reset();
+
+    // Clear hidden ID
+    const taskId = document.getElementById(
+        "task-id"
+    );
+
+    if (taskId) {
+        taskId.value = "";
+    }
+
+    // Hide feedback
+    const feedback = document.getElementById(
+        "form-feedback"
+    );
+
+    if (feedback) {
+        feedback.classList.add("hidden");
+        feedback.textContent = "";
+    }
+
+    // -------------------------------------------------
+    // ADD MODE
+    // -------------------------------------------------
+
+    if (mode === "add") {
+        if (modalTitle) {
+            modalTitle.textContent = "Add Event";
+        }
+
+        if (deleteBtn) {
+            deleteBtn.classList.add("hidden");
+        }
+
+        modal.classList.remove("hidden");
+
+        return;
+    }
+
+    // -------------------------------------------------
+    // EDIT MODE
+    // -------------------------------------------------
+
+    if (mode === "edit" && eventData) {
+        if (modalTitle) {
+            modalTitle.textContent = "Edit Event";
+        }
+
+        if (deleteBtn) {
+            deleteBtn.classList.remove("hidden");
+        }
+
+        const startDate =
+            eventData.start instanceof Date
+                ? eventData.start
+                : new Date(eventData.start);
+
+        const endDate =
+            eventData.end
+                ? (
+                    eventData.end instanceof Date
+                        ? eventData.end
+                        : new Date(eventData.end)
+                )
+                : null;
+
+        // ID
+        if (taskId) {
+            taskId.value = eventData.id;
+        }
+
+        // Title
+        const titleInput =
+            document.getElementById(
+                "task-title"
+            );
+
+        if (titleInput) {
+            titleInput.value =
+                eventData.title || "";
+        }
+
+        // Category
+        const categoryInput =
+            document.getElementById(
+                "task-category"
+            );
+
+        if (categoryInput) {
+            categoryInput.value =
+                eventData.extendedProps?.category ||
+                "";
+        }
+
+        // Start date
+        const startInput =
+            document.getElementById(
+                "task-start"
+            );
+
+        if (startInput) {
+            startInput.value =
+                formatDateForInput(startDate);
+        }
+
+        // End date
+        const endInput =
+            document.getElementById(
+                "task-end"
+            );
+
+        if (endInput) {
+            endInput.value =
+                endDate
+                    ? formatDateForInput(endDate)
+                    : "";
+        }
+
+        // -------------------------------------------------
+        // TIME FIELDS
+        // -------------------------------------------------
+
+        const startTimeInput =
+            document.getElementById(
+                "task-start-time"
+            );
+
+        const endTimeInput =
+            document.getElementById(
+                "task-end-time"
+            );
+
+        if (!eventData.allDay) {
+            if (startTimeInput) {
+                startTimeInput.value =
+                    formatTimeForInput(startDate);
+            }
+
+            if (endTimeInput) {
+                endTimeInput.value =
+                    endDate
+                        ? formatTimeForInput(endDate)
+                        : "";
+            }
+        } else {
+            if (startTimeInput) {
+                startTimeInput.value = "";
+            }
+
+            if (endTimeInput) {
+                endTimeInput.value = "";
+            }
+        }
+
+        // Location
+        const locationInput =
+            document.getElementById(
+                "task-location"
+            );
+
+        if (locationInput) {
+            locationInput.value =
+                eventData.extendedProps?.location ||
+                "";
+        }
+
+        // Description
+        const descriptionInput =
+            document.getElementById(
+                "task-description"
+            );
+
+        if (descriptionInput) {
+            descriptionInput.value =
+                eventData.extendedProps?.description ||
+                "";
+        }
+
+        modal.classList.remove("hidden");
+    }
+}
+
+
+// ---------------------------------------------------------
+// DATE / TIME HELPERS
+// ---------------------------------------------------------
+
+function formatDateForInput(date) {
+    if (!(date instanceof Date) || isNaN(date)) {
+        return "";
+    }
+
+    const year = date.getFullYear();
+    const month = String(
+        date.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        date.getDate()
+    ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+
+function formatTimeForInput(date) {
+    if (!(date instanceof Date) || isNaN(date)) {
+        return "";
+    }
+
+    const hours = String(
+        date.getHours()
+    ).padStart(2, "0");
+
+    const minutes = String(
+        date.getMinutes()
+    ).padStart(2, "0");
+
+    return `${hours}:${minutes}`;
+}
+
+
+// ---------------------------------------------------------
+// CLOSE TASK MODAL
+// ---------------------------------------------------------
+
+function closeModal() {
+    if (modal) {
+        modal.classList.add("hidden");
+    }
+}
+
+
+// ---------------------------------------------------------
+// FORM FEEDBACK
+// ---------------------------------------------------------
+
+function showFeedback(message, type) {
+    const el = document.getElementById(
+        "form-feedback"
+    );
+
+    if (!el) {
+        return;
+    }
+
+    el.textContent = message;
+
+    el.className =
+        "form-feedback " + type;
+
+    el.classList.remove("hidden");
+}
+
+
+// ---------------------------------------------------------
+// CANCEL BUTTON
+// ---------------------------------------------------------
+
+const cancelBtn = document.getElementById(
+    "cancel-btn"
+);
+
+if (cancelBtn) {
+    cancelBtn.addEventListener(
+        "click",
+        closeModal
+    );
+}
+
+
+// ---------------------------------------------------------
+// CLOSE MODAL BUTTON
+// ---------------------------------------------------------
+
+const closeModalBtn = document.getElementById(
+    "close-modal-btn"
+);
+
+if (closeModalBtn) {
+    closeModalBtn.addEventListener(
+        "click",
+        closeModal
+    );
+}
+
+
+// ---------------------------------------------------------
+// SUBMIT FORM
+// ---------------------------------------------------------
+
+if (form) {
+    form.addEventListener(
+        "submit",
+        async (e) => {
+            e.preventDefault();
+
+            const id =
+                document.getElementById(
+                    "task-id"
+                )?.value || "";
+
+            const category =
+                document.getElementById(
+                    "task-category"
+                )?.value || "";
+
+            const title =
+                document.getElementById(
+                    "task-title"
+                )?.value.trim() || "";
+
+            const startDate =
+                document.getElementById(
+                    "task-start"
+                )?.value || "";
+
+            const startTime =
+                document.getElementById(
+                    "task-start-time"
+                )?.value || "";
+
+            const endDate =
+                document.getElementById(
+                    "task-end"
+                )?.value || "";
+
+            const endTime =
+                document.getElementById(
+                    "task-end-time"
+                )?.value || "";
+
+            // Validate title
+            if (!title) {
+                showFeedback(
+                    "Please enter an event title.",
+                    "error"
+                );
+
+                return;
+            }
+
+            // Validate start date
+            if (!startDate) {
+                showFeedback(
+                    "Please select a start date.",
+                    "error"
+                );
+
+                return;
+            }
+
+            // -------------------------------------------------
+            // BUILD DATETIME VALUES
+            // -------------------------------------------------
+
+            const start_time = startTime
+                ? `${startDate}T${startTime}:00`
+                : `${startDate}T00:00:00`;
+
+            const end_time = endDate
+                ? (
+                    endTime
+                        ? `${endDate}T${endTime}:00`
+                        : `${endDate}T00:00:00`
+                )
+                : null;
+
+
+            // -------------------------------------------------
+            // PAYLOAD
+            // -------------------------------------------------
+
+            const payload = {
+                title: title,
+
+                category: category,
+
+                start_time: start_time,
+
+                end_time: end_time,
+
+                location:
+                    document.getElementById(
+                        "task-location"
+                    )?.value.trim() || null,
+
+                description:
+                    document.getElementById(
+                        "task-description"
+                    )?.value.trim() || null,
+
+                // No start time = all-day event
+                all_day: !startTime,
+
+                color:
+                    categoryColors[category] ||
+                    null
+            };
+
+            showFeedback(
+                "Saving...",
+                "success"
+            );
+
+            let error;
+
+            // -------------------------------------------------
+            // UPDATE EXISTING EVENT
+            // -------------------------------------------------
+
+            if (id) {
+                ({
+                    error
+                } = await supabaseClient
+                    .from("events")
+                    .update(payload)
+                    .eq("id", id));
+            }
+
+            // -------------------------------------------------
+            // INSERT NEW EVENT
+            // -------------------------------------------------
+
+            else {
+                ({
+                    error
+                } = await supabaseClient
+                    .from("events")
+                    .insert(payload));
+            }
+
+            // -------------------------------------------------
+            // ERROR
+            // -------------------------------------------------
+
+            if (error) {
+                console.error(
+                    "Error saving event:",
+                    error
+                );
+
+                showFeedback(
+                    "Error: " +
+                    error.message,
+                    "error"
+                );
+
+                return;
+            }
+
+            // -------------------------------------------------
+            // SUCCESS
+            // -------------------------------------------------
+
+            showFeedback(
+                "Saved!",
+                "success"
+            );
+
+            const freshEvents =
+                await fetchEvents();
+
+            if (calendar) {
+                calendar.setOption(
+                    "events",
+                    freshEvents
+                );
+            }
+
+            // Close after short delay
+            setTimeout(
+                closeModal,
+                500
+            );
+        }
+    );
+}
+
+
+// ---------------------------------------------------------
+// DELETE EVENT FROM EDIT MODAL
+// ---------------------------------------------------------
+
+if (deleteBtn) {
+    deleteBtn.addEventListener(
+        "click",
+        async () => {
+            const id =
+                document.getElementById(
+                    "task-id"
+                )?.value;
+
+            if (!id) {
+                return;
+            }
+
+            if (!confirm("Delete this event?")) {
+                return;
+            }
+
+            const { error } =
+                await supabaseClient
+                    .from("events")
+                    .delete()
+                    .eq("id", id);
+
+            if (error) {
+                showFeedback(
+                    "Error: " +
+                    error.message,
+                    "error"
+                );
+
+                return;
+            }
+
+            const freshEvents =
+                await fetchEvents();
+
+            if (calendar) {
+                calendar.setOption(
+                    "events",
+                    freshEvents
+                );
+            }
+
+            closeModal();
+        }
+    );
+}
+
+
+// ---------------------------------------------------------
+// OPTIONAL: CLOSE MODALS WHEN CLICKING OUTSIDE
+// ---------------------------------------------------------
+
+if (detailsModal) {
+    detailsModal.addEventListener(
+        "click",
+        (e) => {
+            if (e.target === detailsModal) {
+                closeDetailsModal();
+            }
+        }
+    );
+}
+
+if (modal) {
+    modal.addEventListener(
+        "click",
+        (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        }
+    );
+}
+
+
+// ---------------------------------------------------------
+// ESC KEY
+// ---------------------------------------------------------
+
+document.addEventListener(
+    "keydown",
+    (e) => {
+        if (e.key !== "Escape") {
+            return;
+        }
+
+        if (
+            detailsModal &&
+            !detailsModal.classList.contains("hidden")
+        ) {
+            closeDetailsModal();
+        }
+
+        if (
+            modal &&
+            !modal.classList.contains("hidden")
+        ) {
+            closeModal();
+        }
+    }
+);

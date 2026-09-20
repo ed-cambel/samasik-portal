@@ -1,0 +1,141 @@
+.calendar-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+#calendar {
+    flex: 1;
+    min-width: 0;
+    /* prevents flexbox overflow issues */
+}
+
+.calendar-legend {
+    flex: 0 0 180px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.calendar-legend h3 {
+    margin: 0 0 12px 0;
+    font-size: 0.95rem;
+}
+
+.calendar-legend ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.calendar-legend li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Stack on smaller screens */
+@media (max-width: 700px) {
+    .calendar-layout {
+        flex-direction: column;
+    }
+
+    .calendar-legend {
+        flex: none;
+        width: 100%;
+    }
+}
+
+.calendar-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.view-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--border, #e2e2ea);
+    background: var(--card, #fff);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.view-btn.active {
+    background: var(--navy, #002060);
+    color: white;
+    border-color: var(--navy, #002060);
+}
+
+.list-day-group {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.list-day-number {
+    font-family: Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1;
+    min-width: 40px;
+}
+
+.list-day-info {
+    flex: 1;
+}
+
+.list-day-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted, #6b6b76);
+    margin-bottom: 8px;
+}
+
+.list-event-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--gray-background, #fafafb);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.list-event-row:hover {
+    background: var(--today-bg, #fff4e5);
+}
+
+.list-event-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.list-event-title::before {
+    content: "•";
+    font-size: 1.2rem;
+}
+
+.list-event-badge {
+    background: var(--navy, #002060);
+    color: white;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
