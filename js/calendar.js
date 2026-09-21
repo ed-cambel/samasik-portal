@@ -10,7 +10,7 @@ let calendar;
 const categoryColors = {
     "University Calendar": "#7f1d1d",
     "Psychology / SamaSik Event": "#ec4899",
-    "Redbolts Event": "#dc2626",
+    "s RedboltEvent": "#dc2626",
     "Birthday": "#7c3aed",
     "Posting": "#16a34a",
     "Meeting": "#2563eb",

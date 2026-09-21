@@ -20,7 +20,7 @@ document.body.insertAdjacentHTML('afterbegin', `
     
                 <li><a href="/index.html" class="nav-link">Home</a></li>
                 <li><a href="/about.html" class="nav-link">About</a></li>
-                <li><a href="/psychalendar.html" class="nav-link">Psychalendar</a></li>
+                <li><a href="/psychalendar.html" class="nav-link">PsyChalendar</a></li>
                 <li><a href="/database.html" class="nav-link">Database</a></li>
     
                 <li class="dropdown">
