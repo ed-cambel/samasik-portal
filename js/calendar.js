@@ -8,13 +8,13 @@ let calendar;
 // ---------------------------------------------------------
 
 const categoryColors = {
-    "University Calendar": "#7f1d1d",
-    "Psychology / SamaSik Event": "#ec4899",
-    "s RedboltEvent": "#dc2626",
+    "University Calendar": "#E1AD01",
+    "Psychology / SamaSik": "#AA336A",
+    "Redbolts": "#dc2626",
     "Birthday": "#7c3aed",
     "Posting": "#16a34a",
     "Meeting": "#2563eb",
-    "Holiday / Commemoration": "#ea580c"
+    "Holiday / Commemoration": "#950606"
 };
 
 
