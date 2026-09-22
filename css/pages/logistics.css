@@ -62,7 +62,7 @@
     width: 100%;
     margin-top: 1rem;
     background: white;
-    border: 2px dashed var(--gray);
+    border: 1px solid var(--gray);
     border-radius: 20px;
     overflow: hidden;
     box-shadow: var(--shadow-soft);
@@ -107,10 +107,10 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: var(--crimson);
-    color: white;
+    color: var(--navy);
     font-size: 0.9rem;
     font-weight: 700;
+    border: 1px solid var(--navy);
     padding: 0.75rem 1.4rem;
     border-radius: var(--radius-card);
     text-decoration: none;

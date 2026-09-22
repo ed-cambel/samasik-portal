@@ -71,7 +71,7 @@
         background: var(--white);
 
         border-radius: var(--radius-card);
-        border: 2px dashed var(--gray);
+        border: 1px solid var(--gray);
     }
 
 }
