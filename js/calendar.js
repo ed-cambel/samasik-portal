@@ -900,7 +900,7 @@ if (form) {
             // Close after short delay
             setTimeout(
                 closeModal,
-                500
+                200
             );
         }
     );
